@@ -59,6 +59,7 @@ public class Lab0b
 		System.out.println("*                               *");
 		System.out.println("*booleanOne = "+booleanOne+"\t\t*");
 		System.out.println("*stringOne = "+stringOne+"\t*");
+		
 
 
 
