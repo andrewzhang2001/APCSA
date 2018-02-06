@@ -32,6 +32,6 @@ class Fahrenheit
 
 	public void print()
 	{
-		System.out.println(String.format("%.2f", fahrenheit) + " degrees Fahrenheit is " + String.format("%.2f", getCelsius()) + " degrees Celsius.");
+		System.out.println(String.format("%.2f", fahrenheit) + " degrees Fahrenheit is " + String.format("%.2f", getCelsius()) + " degrees Celsius.\n");
 	}
 }

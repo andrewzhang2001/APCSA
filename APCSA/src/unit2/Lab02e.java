@@ -37,6 +37,6 @@ class Circle
 	{
 		System.out.print("The area of this circle is ");
 		System.out.printf("%.4f", area);
-		System.out.println("");
+		System.out.println("\n");
 	}
 }

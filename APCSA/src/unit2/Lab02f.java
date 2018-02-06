@@ -32,7 +32,7 @@ class SlopeFinder
 	public void print(){
 		System.out.print("Te slope of the line is ");
 		System.out.printf("%.2f", m );
-		System.out.println();
+		System.out.println("\n");
 	}
 	
 }
