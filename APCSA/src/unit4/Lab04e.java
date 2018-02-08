@@ -45,21 +45,28 @@ class StringChecker
 
 	public boolean findLetter(char c)
 	{
+		char meep;
 		for(int i = 0; i < word.length(); i++){
+			meep = word.charAt(i);
+			if (meep == c){
+				return true;
+			}
 			
 		}
+		return false;
 	}
 
 	public boolean findSubString(String s)
 	{
-
-
-
-		return false;
+		int bloop = word.indexOf(s);
+		if (bloop == -1){
+			return false;
+		}
+		return true;
 	}
 
  	public String toString()
  	{
- 		return "\n\n";
+ 		return word + "\n\n";
 	}
 }
