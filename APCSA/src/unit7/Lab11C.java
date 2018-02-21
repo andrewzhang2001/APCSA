@@ -49,7 +49,7 @@ class TriangleThree
 			for(int k = size - i; k > 0; k--){
 				spaces = spaces + " ";
 			}
-			answer = spaces;
+			answer = answer +spaces;
 			for(int j = 0; j < i; j++){
 				
 				answer = answer +letter;
