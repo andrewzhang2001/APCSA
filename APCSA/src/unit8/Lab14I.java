@@ -46,14 +46,16 @@ class RomanNumeral
 	private Integer number;
 	private String roman;
 
-	private final static int[] NUMBERS= {1000,900,500,400,100,90,
-													50,40,10,9,5,4,1};
-
-	private final static String[] LETTERS = {"M","CM","D","CD","C","XC",
-												  "L","XL","X","IX","V","IV","I"};
-
+	private final static int[] NUMBERS= {1000,500,100,
+													50,10,5,1};
+	
+	private final static String[] LETTERS = {"M","D","C",
+												  "L","X","V","I"};
+	private final static int[] NUMBERSTWO = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+	private final static String[] LETTERSTWO = {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
 	public RomanNumeral(String str)
 	{
+		
 		setRoman(str);
 
 
@@ -84,12 +86,48 @@ class RomanNumeral
 
 	public Integer getNumber()
 	{
-		
-		return number;
+		int summ = 0;
+		for(int i = 0; i < roman.length()-1; i++){
+			String temp = roman.substring(i, i+1);
+			String tempTwo = roman.substring(i+1, i+2);
+			for(int j = 0; j < LETTERS.length; j++){
+				if(temp.equals(LETTERS[j])){
+					for(int k = 0; k < LETTERS.length; k++){
+						if(tempTwo.equals(LETTERS[k])){
+							if(NUMBERS[j] < NUMBERS[k]){
+								summ -= NUMBERS[j];
+							}
+							else{
+								summ += NUMBERS[j];
+							}
+						}
+					}
+				}
+			}
+			
+		}
+		for(int i = 0; i < LETTERS.length; i++){
+			if(roman.substring(roman.length()-1, roman.length()).equals(LETTERS[i])){
+				summ += NUMBERS[i];
+			}
+		}
+		return summ;
 	}
 
 	public String toString()
 	{
+		int temp = number;
+		roman = "";
+		int i =0;
+		while(temp > 0){
+			if(temp  >= NUMBERSTWO[i]){
+				roman += LETTERSTWO[i];
+				temp -= NUMBERSTWO[i];
+			}
+			else{
+				i++;
+			}
+		}
 		return roman + "\n";
 	}
 }

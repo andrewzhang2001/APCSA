@@ -21,7 +21,7 @@ public class Lab10E
 class GuessingGame
 {
 	private int upperBound;
-;
+
 	public GuessingGame(int stop)
 	{
 		
@@ -46,7 +46,7 @@ class GuessingGame
 			counter +=1;
 		}
 		System.out.println("It took "+counter+ " guesses to guess "+ ans);
-		System.out.println("You guessed wrong " +(double)(counter -1)/upperBound * 100 +"% of the time\n");
+		System.out.println("You guessed wrong " +String.format("%.2f", (double)(counter -1)/upperBound * 100) +"% of the time\n");
 		System.out.println("Do you want to play again? (Y/N)");
 		String yesno = keyboard.next();
 		if(yesno.equals("y") || yesno.equals("Y")){
