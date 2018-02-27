@@ -1,9 +1,11 @@
 package usacotraining;
+import java.util.*;
+import java.io.*;
 
 public class codeforces_71A {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
 	}
 
