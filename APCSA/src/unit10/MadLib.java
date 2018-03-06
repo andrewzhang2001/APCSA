@@ -13,13 +13,31 @@ public class MadLib
 	private ArrayList<String> verbs;
 	private ArrayList<String> nouns;
 	private ArrayList<String> adjectives;
-	
+	String myans;
 	public MadLib()
 	{
+		String mb="";
 		loadNouns();
 		loadAdjectives();
 		loadVerbs();
+		try{
+			Scanner file = new Scanner(new File(System.getProperty("user.dir")+"\\src\\unit10\\story.dat"));
+			mb= file.nextLine();		
 
+		
+		}
+		catch(Exception e)
+		{
+			out.println("Houston we have a problem!");
+		}
+		String ans ="";
+		for(int i =0; i < mb.length();i++){
+			if (mb.charAt(i)=='#') ans+=getRandomNoun();
+			else if(mb.charAt(i)=='@') ans+=getRandomVerb();
+			else if(mb.charAt(i)=='&') ans+=getRandomAdjective();
+			else ans+=mb.charAt(i);
+		}
+		myans=ans;
 
 	}
 
@@ -32,12 +50,7 @@ public class MadLib
 		try{
 			Scanner file = new Scanner(new File(fileName));
 			mb= file.nextLine();		
-		
-		
-		
-		
-		
-	
+			file.close();
 		
 		}
 		catch(Exception e)
@@ -48,18 +61,24 @@ public class MadLib
 		loadAdjectives();
 		loadVerbs();
 		String ans ="";
-		for(int i =0; i < mb.length(); i++){
-			
+		for(int i =0; i < mb.length();i++){
+			if (mb.charAt(i)=='#') ans+=getRandomNoun();
+			else if(mb.charAt(i)=='@') ans+=getRandomVerb();
+			else if(mb.charAt(i)=='&') ans+=getRandomAdjective();
+			else ans+=mb.charAt(i);
 		}
+		myans=ans;
 		
 	}
 
 	public void loadNouns()
 	{
+		nouns = new ArrayList<String>();
 		try{
-			Scanner file = new Scanner(new File(System.getProperty("user.dir")+"\\src\\Lab16d\\nouns.dat"));
+			Scanner file = new Scanner(new File(System.getProperty("user.dir")+"\\src\\unit10\\nouns.dat"));
 			while(file.hasNextLine()){
-				nouns.add(file.nextLine());
+				String x=file.nextLine();
+				nouns.add(x);
 			}
 			
 		}
@@ -72,8 +91,9 @@ public class MadLib
 	
 	public void loadVerbs()
 	{
+		verbs = new ArrayList<String>();
 		try{
-			Scanner file = new Scanner(new File(System.getProperty("user.dir")+"\\src\\Lab16d\\verbs.dat"));
+			Scanner file = new Scanner(new File(System.getProperty("user.dir")+"\\src\\unit10\\verbs.dat"));
 			while(file.hasNextLine()){
 				verbs.add(file.nextLine());
 			}
@@ -87,8 +107,9 @@ public class MadLib
 
 	public void loadAdjectives()
 	{
+		adjectives = new ArrayList<String>();
 		try{
-			Scanner file = new Scanner(new File(System.getProperty("user.dir")+"\\src\\Lab16d\\adjectives.dat"));
+			Scanner file = new Scanner(new File(System.getProperty("user.dir")+"\\src\\unit10\\adjectives.dat"));
 			while(file.hasNextLine()){
 				adjectives.add(file.nextLine());
 			}
@@ -119,6 +140,6 @@ public class MadLib
 
 	public String toString()
 	{
-	   return "\n\n\n";
+	   return myans+"\n\n\n";
 	}
 }

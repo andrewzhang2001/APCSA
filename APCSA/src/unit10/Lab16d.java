@@ -6,7 +6,8 @@ public class Lab16d
 {
 	public static void main( String args[] )
 	{
-		//make a new MadLib
+		MadLib adam = new MadLib();
+		out.print(adam);
 		
 		out.println("\n");
 	}
