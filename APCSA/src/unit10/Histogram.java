@@ -94,6 +94,6 @@ public class Histogram
 	{
 	   return fileName
 	   + "\n" + letters
-	   + "\n" + count + "\n\n\n";
+	   + "\n" + count + "\n\n";
 	}
 }
