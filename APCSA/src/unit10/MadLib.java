@@ -48,7 +48,7 @@ public class MadLib
 		String mb="";
 		
 		try{
-			Scanner file = new Scanner(new File(fileName));
+			Scanner file = new Scanner(new File(System.getProperty("user.dir")+"\\src\\unit10\\"+fileName));
 			mb= file.nextLine();		
 			file.close();
 		
@@ -80,6 +80,7 @@ public class MadLib
 				String x=file.nextLine();
 				nouns.add(x);
 			}
+			file.close();
 			
 		}
 		catch(Exception e)
@@ -97,6 +98,7 @@ public class MadLib
 			while(file.hasNextLine()){
 				verbs.add(file.nextLine());
 			}
+			file.close();
 			
 		}
 		catch(Exception e)
