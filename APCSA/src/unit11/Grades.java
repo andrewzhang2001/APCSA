@@ -26,11 +26,11 @@ public class Grades
 	
 	public void setGrades(String gradeList)
 	{
-		StringTokenizer st = new StringTokenizer(gradeList);
-		int n = Integer.parseInt(st.nextToken());
-		st.nextToken();
+		Scanner st = new Scanner(gradeList);
+		int n = (st.nextInt());
+		String trash = st.next();
 		grades=new Grade[n];
-		for(int i =0;i<n;i++)grades[i]=new Grade(Double.parseDouble(st.nextToken()));
+		for(int i =0;i<n;i++)grades[i]=new Grade(Double.parseDouble(st.next()));
 	}
 	
 	public void setGrade(int spot, double grade)

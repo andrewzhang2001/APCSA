@@ -73,12 +73,14 @@ public class Class
 	{
 		double high = Double.MIN_VALUE;
 		String hName ="";
-
-
-
-
-
-
+		int indexOfHighestStudent = -1;
+		for(int i =0;i<studentList.length;i++){
+			if(studentList[i].getAverage()>high){
+				high=studentList[i].getAverage();
+				indexOfHighestStudent =i;
+			}
+		}
+		hName+=getStudentName(indexOfHighestStudent);
 		return hName;
 	}
 
@@ -86,30 +88,37 @@ public class Class
 	{
 		double low = Double.MAX_VALUE;
 		String hName ="";		
-
-
-
-
-
-
+		int indexOfLowestStudent = -1;
+		for(int i=0;i<studentList.length;i++){
+			if(studentList[i].getAverage()<low){
+				low=studentList[i].getAverage();
+				indexOfLowestStudent = i;
+			}
+		}
+		hName+=getStudentName(indexOfLowestStudent);
 		return hName;
 	}
 	
 	public String getFailureList(double failingGrade)
 	{
 		String output="";
-
-
-
-
-
+		for(int i =0;i<studentList.length;i++){
+			if (studentList[i].getAverage()<failingGrade)output+=getStudentName(i)+" ";
+		}
 		return output;
 	}
 	
 	public String toString()
 	{
 		String output=""+getClassName()+"\n";
-
+		/*
+		for(Student i:studentList){
+			output+=i+"\n";
+		}
+		for(Student i:studentList){
+			output+=i.getName()+"'s average = "+i.getAverage()+"\n";
+		}
+*/
 
 
 
