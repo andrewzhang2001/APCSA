@@ -33,7 +33,6 @@ public class GradeBookRunner
 			ipC.addStudent(i, s);
 		}
 		out.println(ipC);
-		out.print(ipC);
 		for(int i=0;i<numStudents;i++){
 		out.println(String.format(ipC.getStudentName(i) + "\'s average = %.2f",ipC.getStudentAverage(i)));	
 		}
