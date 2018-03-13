@@ -1,4 +1,4 @@
-package unit11;
+package unit11arrayList;
 //© A+ Computer Science  -  www.apluscompsci.com
 //Name -
 //Date -
@@ -6,6 +6,7 @@ package unit11;
 //Lab  -
 
 import java.util.Arrays;
+import java.util.*;
 import java.util.Scanner;
 import static java.lang.System.*;
 import static java.util.Arrays.*;
@@ -81,7 +82,9 @@ public class Student implements Comparable<Student>
 	{
 		return myGrades.getLowGrade();	
 	}
-	public Grade[] giveGrades(){return myGrades.giveGrades();}
+	public java.util.ArrayList<Grade> giveGrades(){
+		return myGrades.giveGrades();
+		}
 	public String toString()
 	{
 		return myName+" = "+myGrades;

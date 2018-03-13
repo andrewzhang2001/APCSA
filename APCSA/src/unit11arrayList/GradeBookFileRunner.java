@@ -1,4 +1,4 @@
-package unit11;
+package unit11arrayList;
 //© A+ Computer Science  -  www.apluscompsci.com
 //Name -
 //Date -
@@ -31,12 +31,12 @@ public class GradeBookFileRunner
 		for(int i=0;i<numStudents;i++){
 		out.println(String.format(fileClass.getStudentName(i) + "\'s average = %.2f",fileClass.getStudentAverage(i)));	
 		}
-		Student[] sortedStudents = Class.sort(fileClass);
+		ArrayList<Student> sortedStudents = Class.sort(fileClass);
 		out.println("\nSORTED LIST:\n");
-		for(int i =0;i<sortedStudents.length;i++){
-			out.print(sortedStudents[i].getName());
-			out.print(Arrays.toString(sortedStudents[i].giveGrades()));
-			out.print("\t\t"+sortedStudents[i].getAverage()+"\n");
+		for(int i =0;i<sortedStudents.size();i++){
+			out.print(sortedStudents.get(i).getName());
+			
+			out.print("\t\t"+sortedStudents.get(i).getAverage()+"\n");
 		}
 		out.println(fileClass.getFailureList(70));
 		out.println("Highest average = "+fileClass.getStudentWithHighestAverage());
