@@ -16,19 +16,10 @@ public class Main {
     static class Problem {
         public void solve(InputReader in, PrintWriter out) {
         	//Start of Solution
-            	int r=in.nextInt();int c=in.nextInt();
-            	char[][]sheepwolf=new char[r][c];
-            	for(int i=0;i<r;i++){
-            		String temp = in.next();
-            		for(int k=0;k<c;k++){ 
-            			sheepwolf[i][k]=temp.charAt(k);
-            		}
-            	}
-            	
-            }
+          
             //End of Solution
            }
-
+    }
 //Insert any additional methods/classes below below
 
     
