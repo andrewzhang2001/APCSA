@@ -9,11 +9,11 @@ package unit12;
 import static java.lang.System.*;
 import java.lang.Math;
 
-public class Word implements Comparable<Word>
+public class WordLab18e implements Comparable<WordLab18e>
 {
 	private String word;
 
-	public Word(String s)
+	public WordLab18e(String s)
 	{
 		word = s;
 	}
@@ -28,7 +28,7 @@ public class Word implements Comparable<Word>
 		return vowelcount;
 	}
 
-	public int compareTo( Word rhs )
+	public int compareTo( WordLab18e rhs )
 	{	
 		//Below code is for Lab18e only
 		if(numVowels()>rhs.numVowels()) return 1;
@@ -38,12 +38,7 @@ public class Word implements Comparable<Word>
 			else if (toString().charAt(i)<rhs.toString().charAt(i)) return -1;
 		}
 		return toString().length()-rhs.toString().length();
-		//Below code is for Lab18d only
-		/*
-		if (word.length()>rhs.toString().length()) return 1;
-		else if(word.length()<rhs.toString().length())return -1;
-		return 0;
-		*/
+		
 	}
 
 	public String toString()
