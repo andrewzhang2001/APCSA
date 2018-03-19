@@ -16,19 +16,33 @@ public class FancyWords
 
 	public FancyWords(String sentence)
 	{
-
+		setWords(sentence);
 	}
 
 	public void setWords(String sentence)
 	{
-
+		wordRay = sentence.split(" ");
 	}
 
 	public String toString()
 	{
 		String output="";
 		int max = Integer.MIN_VALUE;
-
+		for(int i =0;i<wordRay.length;i++){max = Math.max(max, wordRay[i].length());}
+		for(int i =0;i<max;i++){
+			for(int k =wordRay.length-1;k>=0;--k){
+				String j = wordRay[k];
+				if(j.length()<=i){
+					output+=" ";
+					continue;
+				}
+				else{
+					output+=j.charAt(j.length()-i-1);
+				}
+			}
+			output+="\n";
+		}
+		
 
 
 
