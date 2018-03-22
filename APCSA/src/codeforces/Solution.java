@@ -28,6 +28,10 @@ public class Solution {
 			for(int i=1;i<n;i++){
 				int absdiff = Math.abs(Integer.parseInt(w[i])-Integer.parseInt(w[i-1]));
 				int diff = Math.abs(Integer.parseInt(w[i])-Integer.parseInt(w[i-1]));
+				if(absdiff==0){
+					possible = false;
+					break;
+				}
 				if(absdiff==1){
 					continue;
 				} 
