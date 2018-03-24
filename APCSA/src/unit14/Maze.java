@@ -40,7 +40,7 @@ public class Maze
 
 	public boolean hasExitPath(int r, int c)
 	{
-		if(c+1==maxsize&&maze[r+1][c+1]) {return true;}
+		if(c==maxsize) {return true;}
 		if(!visited[r+1][c+1]&&maze[r+1][c+1]){
 			visited[r+1][c+1]=true;
 			if(hasExitPath(r+1,c))return true;
