@@ -34,12 +34,12 @@ public class ElevensBoard extends Board{
 	/**
 	 * The cards on this board.
 	 */
-	private Card[] cards;
+	//private Card[] cards;
 
 	/**
 	 * The deck of cards being used to play the current game.
 	 */
-	private Deck deck;
+	//private Deck deck;
 
 	/**
 	 * Flag used to control debugging print statements.
@@ -52,7 +52,7 @@ public class ElevensBoard extends Board{
 	 */
 	public ElevensBoard() {
 		super(BOARD_SIZE,RANKS,SUITS,POINT_VALUES);
-		cards = new Card[BOARD_SIZE];
+		/*cards = new Card[BOARD_SIZE];
 		deck = new Deck(RANKS, SUITS, POINT_VALUES);
 		if (I_AM_DEBUGGING) {
 			System.out.println(deck);
@@ -60,6 +60,7 @@ public class ElevensBoard extends Board{
 		}
 		deck.shuffle();
 		dealMyCards();
+		*/
 	}
 
 	/**
@@ -187,7 +188,7 @@ public class ElevensBoard extends Board{
 	 *         false otherwise.
 	 */
 	public boolean isLegal(List<Integer> selectedCards) {
-		if (selectedCards.size()==2&&!containsPairSum11(selectedCards)&&cardAt(selectedCards.get(0)).pointValue()!=0&&cardAt(selectedCards.get(1)).pointValue()!=0){
+		if (selectedCards.size()==2&&!containsPairSum11(selectedCards)){
 			return false;
 		}
 		if(selectedCards.size()==3&&!containsJQK(selectedCards)) return false;

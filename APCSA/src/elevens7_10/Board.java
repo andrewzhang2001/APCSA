@@ -12,12 +12,12 @@ public abstract class Board {
 	/**
 	 * The cards on this board.
 	 */
-	private Card[] cards;
+	protected Card[] cards;
 
 	/**
 	 * The deck of cards being used to play the current game.
 	 */
-	private Deck deck;
+	protected Deck deck;
 
 	/**
 	 * Flag used to control debugging print statements.
@@ -40,6 +40,7 @@ public abstract class Board {
 			System.out.println(deck);
 			System.out.println("----------");
 		}
+		deck.shuffle();
 		dealMyCards();
 	}
 
