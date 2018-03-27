@@ -32,6 +32,7 @@ public abstract class Board {
 	 * @param pointValues the integer values of the cards needed to create
 	 *                    the deck
 	 */
+	
 	public Board(int size, String[] ranks, String[] suits, int[] pointValues) {
 		cards = new Card[size];
 		deck = new Deck(ranks, suits, pointValues);

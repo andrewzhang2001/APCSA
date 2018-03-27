@@ -16,7 +16,7 @@ public class Deck {
 	//private List<Card> cards;
 	
 	//Unit 9 - Array version of the Deck
-	private Card[] cards;
+	private ArrayList<Card> cards;
 
 	/**
 	 * size is the number of not-yet-dealt cards.
@@ -35,14 +35,14 @@ public class Deck {
 	 * @param values is an array containing all of the card point values.
 	 */
 	public Deck(String[] ranks, String[] suits, int[] values) {
-		cards = new Card[ranks.length];
+		cards = new ArrayList<Card>();
 		for(int i = 0; i < ranks.length; i++){
-			for(int j =0;j<suits.length;j++){
+			for (int j =0; j<suits.length;j++){
 			Card newcard = new Card(ranks[i], suits[j], values[i]);
-			cards[i]= newcard;
+			cards.add(newcard);
 			}
 		}
-		size = cards.length;
+		size = cards.size();
 		
 	}
 
@@ -71,12 +71,14 @@ public class Deck {
 	 * and reset the size to represent the entire deck.
 	 */
 	public void shuffle() {
+		size=52;
 		Random rng = new Random();
 		for(int i=this.size()-1; i > 0; i--){
 			int r = rng.nextInt(i+1);
-			Card buffer = this.cards[r];
-			this.cards[r] = this.cards[i];
-			this.cards[i]= buffer;
+			Card buffer = this.cards.get(r);
+			this.cards.set(r, this.cards.get(i));
+			this.cards.set(i,buffer);
+
 		}
 		
 	}
@@ -87,7 +89,7 @@ public class Deck {
 	 *         previously dealt.
 	 */
 	public Card deal() {
-		Card temp = cards[size-1];
+		Card temp = cards.get(size()-1);
 		size --;
 		return temp;
 		

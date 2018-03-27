@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * The ElevensBoard class represents the board in a game of Elevens.
  */
-public class ElevensBoard {
+public class ElevensBoard extends Board{
 
 	/**
 	 * The size (number of cards) on the board.
@@ -51,12 +51,14 @@ public class ElevensBoard {
 	 * Creates a new <code>ElevensBoard</code> instance.
 	 */
 	public ElevensBoard() {
+		super(BOARD_SIZE,RANKS,SUITS,POINT_VALUES);
 		cards = new Card[BOARD_SIZE];
 		deck = new Deck(RANKS, SUITS, POINT_VALUES);
 		if (I_AM_DEBUGGING) {
 			System.out.println(deck);
 			System.out.println("----------");
 		}
+		deck.shuffle();
 		dealMyCards();
 	}
 
@@ -185,7 +187,11 @@ public class ElevensBoard {
 	 *         false otherwise.
 	 */
 	public boolean isLegal(List<Integer> selectedCards) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+		if (selectedCards.size()==2&&!containsPairSum11(selectedCards)&&cardAt(selectedCards.get(0)).pointValue()!=0&&cardAt(selectedCards.get(1)).pointValue()!=0){
+			return false;
+		}
+		if(selectedCards.size()==3&&!containsJQK(selectedCards)) return false;
+		return true;
 	}
 
 	/**
@@ -197,7 +203,8 @@ public class ElevensBoard {
 	 *         false otherwise.
 	 */
 	public boolean anotherPlayIsPossible() {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+		if(containsJQK(cardIndexes())||containsPairSum11(cardIndexes())) return true;
+		return false;
 	}
 
 
@@ -219,7 +226,14 @@ public class ElevensBoard {
 	 *              contain an 11-pair; false otherwise.
 	 */
 	private boolean containsPairSum11(List<Integer> selectedCards) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+		boolean[] seen = new boolean[11];
+		for(Integer i:selectedCards){
+			seen[cardAt(i).pointValue()]=true;
+		}
+		for(int i=1;i<=5;i++){
+			if (seen[i]&&seen[11-i]) return true;
+		}
+		return false;
 	}
 
 	/**
@@ -231,6 +245,13 @@ public class ElevensBoard {
 	 *              include a jack, a queen, and a king; false otherwise.
 	 */
 	private boolean containsJQK(List<Integer> selectedCards) {
-		/* *** TO BE IMPLEMENTED IN ACTIVITY 9 *** */
+		boolean seenJ=false, seenQ=false, seenK=false;
+		for(Integer i: selectedCards){
+			if(cardAt(i).rank().equals("jack")) seenJ=true;
+			if(cardAt(i).rank().equals("queen")) seenQ=true;
+			if(cardAt(i).rank().equals("king")) seenK=true;
+		}
+		if(seenJ&&seenQ&&seenK) return true;
+		return false;
 	}
 }
