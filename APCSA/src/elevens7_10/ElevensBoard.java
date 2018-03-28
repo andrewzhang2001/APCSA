@@ -61,16 +61,14 @@ public class ElevensBoard extends Board{
 		deck.shuffle();
 		dealMyCards();
 		*/
+		System.out.println("NAME: ANDREW ZHANG\nPERIOD 4\nDATE:MAR 28 2017\nCOMPUTER NO. 18");
 	}
 
 	/**
 	 * Start a new game by shuffling the deck and
 	 * dealing some cards to this board.
 	 */
-	public void newGame() {
-		deck.shuffle();
-		dealMyCards();
-	}
+
 
 	/**
 	 * Accesses the size of the board.
@@ -78,59 +76,40 @@ public class ElevensBoard extends Board{
 	 * which will be smaller near the end of a winning game.
 	 * @return the size of the board
 	 */
-	public int size() {
-		return cards.length;
-	}
+
 
 	/**
 	 * Determines if the board is empty (has no cards).
 	 * @return true if this board is empty; false otherwise.
 	 */
-	public boolean isEmpty() {
-		for (int k = 0; k < cards.length; k++) {
-			if (cards[k] != null) {
-				return false;
-			}
-		}
-		return true;
-	}
+
 
 	/**
 	 * Deal a card to the kth position in this board.
 	 * If the deck is empty, the kth card is set to null.
 	 * @param k the index of the card to be dealt.
 	 */
-	public void deal(int k) {
-		cards[k] = deck.deal();
-	}
+
 
 	/**
 	 * Accesses the deck's size.
 	 * @return the number of undealt cards left in the deck.
 	 */
-	public int deckSize() {
-		return deck.size();
-	}
+
 
 	/**
 	 * Accesses a card on the board.
 	 * @return the card at position k on the board.
 	 * @param k is the board position of the card to return.
 	 */
-	public Card cardAt(int k) {
-		return cards[k];
-	}
+
 
 	/**
 	 * Replaces selected cards on the board by dealing new cards.
 	 * @param selectedCards is a list of the indices of the
 	 *        cards to be replaced.
 	 */
-	public void replaceSelectedCards(List<Integer> selectedCards) {
-		for (Integer k : selectedCards) {
-			deal(k.intValue());
-		}
-	}
+
 
 	/**
 	 * Gets the indexes of the actual (non-null) cards on the board.
@@ -138,27 +117,13 @@ public class ElevensBoard extends Board{
 	 * @return a List that contains the locations (indexes)
 	 *         of the non-null entries on the board.
 	 */
-	public List<Integer> cardIndexes() {
-		List<Integer> selected = new ArrayList<Integer>();
-		for (int k = 0; k < cards.length; k++) {
-			if (cards[k] != null) {
-				selected.add(new Integer(k));
-			}
-		}
-		return selected;
-	}
+
 
 	/**
 	 * Generates and returns a string representation of this board.
 	 * @return the string version of this board.
 	 */
-	public String toString() {
-		String s = "";
-		for (int k = 0; k < cards.length; k++) {
-			s = s + k + ": " + cards[k] + "\n";
-		}
-		return s;
-	}
+
 
 	/**
 	 * Determine whether or not the game has been won,
@@ -166,17 +131,7 @@ public class ElevensBoard extends Board{
 	 * @return true when the current game has been won;
 	 *         false otherwise.
 	 */
-	public boolean gameIsWon() {
-		if (deck.isEmpty()) {
-			for (Card c : cards) {
-				if (c != null) {
-					return false;
-				}
-			}
-			return true;
-		}
-		return false;
-	}
+
 
 	/**
 	 * Determines if the selected cards form a valid group for removal.
@@ -188,10 +143,10 @@ public class ElevensBoard extends Board{
 	 *         false otherwise.
 	 */
 	public boolean isLegal(List<Integer> selectedCards) {
-		if (selectedCards.size()==2&&!containsPairSum11(selectedCards)){
+		if (selectedCards.size()==2&&!pairFace(selectedCards)){
 			return false;
 		}
-		if(selectedCards.size()==3&&!containsJQK(selectedCards)) return false;
+		if(selectedCards.size()==3&&!tripSum11(selectedCards)) return false;
 		return true;
 	}
 
@@ -204,7 +159,7 @@ public class ElevensBoard extends Board{
 	 *         false otherwise.
 	 */
 	public boolean anotherPlayIsPossible() {
-		if(containsJQK(cardIndexes())||containsPairSum11(cardIndexes())) return true;
+		if(tripSum11(cardIndexes())||pairFace(cardIndexes())) return true;
 		return false;
 	}
 
@@ -212,11 +167,7 @@ public class ElevensBoard extends Board{
 	/**
 	 * Deal cards to this board to start the game.
 	 */
-	private void dealMyCards() {
-		for (int k = 0; k < cards.length; k++) {
-			cards[k] = deck.deal();
-		}
-	}
+
 
 	/**
 	 * Check for an 11-pair in the selected cards.
@@ -226,7 +177,7 @@ public class ElevensBoard extends Board{
 	 * @return true if the board entries in selectedCards
 	 *              contain an 11-pair; false otherwise.
 	 */
-	private boolean containsPairSum11(List<Integer> selectedCards) {
+	/*private boolean containsPairSum11(List<Integer> selectedCards) {
 		boolean[] seen = new boolean[11];
 		for(Integer i:selectedCards){
 			seen[cardAt(i).pointValue()]=true;
@@ -235,7 +186,7 @@ public class ElevensBoard extends Board{
 			if (seen[i]&&seen[11-i]) return true;
 		}
 		return false;
-	}
+	}*/
 
 	/**
 	 * Check for a JQK in the selected cards.
@@ -245,7 +196,7 @@ public class ElevensBoard extends Board{
 	 * @return true if the board entries in selectedCards
 	 *              include a jack, a queen, and a king; false otherwise.
 	 */
-	private boolean containsJQK(List<Integer> selectedCards) {
+	/*private boolean containsJQK(List<Integer> selectedCards) {
 		boolean seenJ=false, seenQ=false, seenK=false;
 		for(Integer i: selectedCards){
 			if(cardAt(i).rank().equals("jack")) seenJ=true;
@@ -253,6 +204,34 @@ public class ElevensBoard extends Board{
 			if(cardAt(i).rank().equals("king")) seenK=true;
 		}
 		if(seenJ&&seenQ&&seenK) return true;
+		return false;
+	}*/
+	private boolean tripSum11(List<Integer> selectedCards){
+		for(int i=0;i<selectedCards.size();i++){
+			for(int j=i+1;j<selectedCards.size();j++){
+				for(int k=j+1;k<selectedCards.size();k++){
+					if(cardAt(selectedCards.get(i)).pointValue()+cardAt(selectedCards.get(j)).pointValue()+cardAt(selectedCards.get(k)).pointValue()==11) return true;
+				}
+			}
+		}
+		return false;
+	}
+	private boolean pairFace(List<Integer> selectedCards){
+		boolean seenJ=false, seenQ=false, seenK=false;
+		for(int i:selectedCards){
+			if(cardAt(i).rank().equals("jack")){
+				if (seenJ) return true;
+				seenJ=true;
+			}
+			if(cardAt(i).rank().equals("queen")){
+				if(seenQ) return true;
+				seenQ=true;
+			}
+			if(cardAt(i).rank().equals("king")){
+				if(seenK) return true;
+				seenK = true;
+			}
+		}
 		return false;
 	}
 }
