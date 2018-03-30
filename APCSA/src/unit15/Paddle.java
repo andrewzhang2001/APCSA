@@ -56,7 +56,7 @@ public class Paddle extends Block
    public void moveUpAndDraw(Graphics window)
    {
 	   draw(window, Color.WHITE);
-	   setX(getX()+speed);
+	   setY(getY()+speed);
 	   draw(window);
 
    }
@@ -64,7 +64,7 @@ public class Paddle extends Block
    public void moveDownAndDraw(Graphics window)
    {
 	   draw(window, Color.WHITE);
-	   setX(getX() + speed);
+	   setY(getY() - speed);
 	   draw(window);
 
    }
