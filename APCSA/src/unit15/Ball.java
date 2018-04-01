@@ -52,16 +52,50 @@ public class Ball extends Block implements Collidable
 		ySpeed = yspeed;
 	}
 	
-	public boolean didCollideLeft(Object obj){
+
+	public boolean didCollideLeft(Object obj) {
+		Paddle testpaddle = (Paddle)obj;
+		if (getX()<=testpaddle.getX()+testpaddle.getWidth()&&getX()>testpaddle.getX()
+				&&(getY()>=testpaddle.getY() && getY()<=testpaddle.getY()+testpaddle.getHeight())){
+			return true;
+		}
 		return false;
 	}
-	public boolean didCollideRight(Object obj){
+
+
+	public boolean didCollideRight(Object obj) {
+
+		
+		Paddle testpaddle = (Paddle)obj;
+		if (getX()+getWidth()>=testpaddle.getX()&&getX()<testpaddle.getX()&&(getY()>=testpaddle.getY() 
+				&& getY()<=testpaddle.getY()+testpaddle.getHeight())){
+			return true;
+		}
 		return false;
 	}
-	public boolean didCollideTop(Object obj){
+
+
+	public boolean didCollideTop(Object obj) {
+
+		Paddle testpaddle = (Paddle)obj;
+		if (getY()+getHeight()>=testpaddle.getY() && getY() < testpaddle.getY()+testpaddle.getHeight() 
+		&& (getX()>=testpaddle.getX() && getX()+getWidth()<=testpaddle.getX()+testpaddle.getWidth())){
+
+			return true;
+		}
 		return false;
 	}
-	public boolean didCollideBottom(Object obj){
+
+
+	public boolean didCollideBottom(Object obj) {
+
+		Paddle testpaddle = (Paddle) obj;
+		if (getY()+getHeight()>testpaddle.getY() && getY() <= testpaddle.getY()+testpaddle.getHeight() &&
+				(getX()>=testpaddle.getX() && getX()+getWidth()<=testpaddle.getX()+testpaddle.getWidth())){
+
+					return true;
+							
+				}
 		return false;
 	}
 	
