@@ -55,8 +55,8 @@ public class Ball extends Block implements Collidable
 
 	public boolean didCollideLeft(Object obj) {
 		Block testpaddle = (Block)obj;
-		if (getX()<=testpaddle.getX()+testpaddle.getWidth()&&getX()>testpaddle.getX()
-				&&(getY()>=testpaddle.getY() && getY()<=testpaddle.getY()+testpaddle.getHeight())){
+		if (getX()<=testpaddle.getX()+testpaddle.getWidth()+Math.abs(getXSpeed())&&getX()>=testpaddle.getX()+Math.abs(getXSpeed())&&
+				(getY()>=testpaddle.getY()-Math.abs(getYSpeed()) && getY()+getHeight()<=testpaddle.getY()+testpaddle.getHeight()+Math.abs(getYSpeed()))){
 			return true;
 		}
 		return false;
@@ -67,8 +67,8 @@ public class Ball extends Block implements Collidable
 
 		
 		Block testpaddle = (Block)obj;
-		if (getX()+getWidth()>=testpaddle.getX()-Math.abs(getXSpeed())&&getX()<testpaddle.getX()&&(getY()>=testpaddle.getY() 
-				&& getY()<=testpaddle.getY()+testpaddle.getHeight())){
+		if (getX()+getWidth()>=testpaddle.getX()-Math.abs(getXSpeed())&&getX()<=testpaddle.getX()+testpaddle.getWidth()-Math.abs(getXSpeed())&&(getY()>=testpaddle.getY()-Math.abs(getYSpeed()) 
+				&& getY()+getHeight()<=testpaddle.getY()+testpaddle.getHeight()+Math.abs(getYSpeed()))){
 			return true;
 		}
 		return false;
@@ -79,7 +79,7 @@ public class Ball extends Block implements Collidable
 
 		Block testpaddle = (Block)obj;
 		if ((getX()>=testpaddle.getX() && testpaddle.getX()+testpaddle.getWidth()>=getX()+getWidth())&&
-				getY()+getHeight()>=testpaddle.getY()-Math.abs(getYSpeed()) && getY()<testpaddle.getY()+testpaddle.getHeight() ){
+				getY()<=testpaddle.getY()+testpaddle.getHeight()+Math.abs(getYSpeed())&&getY()+getHeight()>=testpaddle.getY()+Math.abs(getYSpeed())){
 
 			return true;
 		}
@@ -91,10 +91,8 @@ public class Ball extends Block implements Collidable
 
 		Block testpaddle = (Block) obj;
 		if ((getX()>=testpaddle.getX() && getX()+getWidth()<=testpaddle.getX()+testpaddle.getWidth())&&
-				getY()+getHeight()>testpaddle.getY()-Math.abs(getYSpeed()) && getY()-Math.abs(getYSpeed()) <= testpaddle.getY()+testpaddle.getHeight()){
-
+				getY()+getHeight()>=testpaddle.getY()-Math.abs(getYSpeed())&&getY()<=testpaddle.getY()+testpaddle.getHeight()-Math.abs(getYSpeed())){
 					return true;
-							
 				}
 		return false;
 	}
