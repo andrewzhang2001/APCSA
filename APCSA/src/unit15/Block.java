@@ -50,7 +50,12 @@ public class Block implements Locatable
 		height = h;
 		color = c;
 	}
-	
+	public void setWidth(int w){
+		width = w;
+	}
+	public void setHeight(int h){
+		height = h;
+	}
 	
 	
 	
