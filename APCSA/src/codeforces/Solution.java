@@ -18,31 +18,17 @@
 		// Problem Solver
 		static class Problem {
 			public void solve(InputReader in, PrintWriter out) {
-				String s = in.next();
-				if (s.length() < 26) {
-					boolean[] seen = new boolean[26];
-					for (int i = 0; i < s.length(); i++) {
-						seen[(int) s.charAt(i) - 97] = true;
-					}
-					for (int i = 0; i < 26; i++) {
-						if (!seen[i]) {
-							s = s + Character.getNumericValue('a' + i);
-							System.out.print(s);
-							return;
-						}
-					}
+				int n = in.nextInt();
+				int k = in.nextInt();
+				int[] counter = new int[n];
+				for(int i=0;i<k;i++){
+					counter[in.nextInt()-1]++;
 				}
-				else if (s.equals("zyxwvutsrqponmlkjihgfedcba")){
-					System.out.println("-1");
-					return;
+				int minval = counter[0];
+				for(int i=1;i<n;i++){
+					if (counter[i]>minval) minval = counter[i];
 				}
-				else{
-					for(int i=25;i>=0;i--){
-						for(char cp = 'z';cp>s.charAt(i);cp--){
-							
-						}
-					}
-				}
+				System.out.println(minval);
 			}
 		}
 		// Insert any additional methods/classes below below
