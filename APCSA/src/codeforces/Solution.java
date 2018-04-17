@@ -11,28 +11,34 @@
 			InputReader in = new InputReader(inputStream);
 			PrintWriter out = new PrintWriter(outputStream);
 			Problem solver = new Problem();
-			solver.solve(in, out);
+			solver.solve(in, out,1);
+
 			out.close();
 		}
 	
 		// Problem Solver
 		static class Problem {
-			public void solve(InputReader in, PrintWriter out) {
+			public void solve(InputReader in, PrintWriter out,int testCase) {
 				int n = in.nextInt();
-				int k = in.nextInt();
-				int[] counter = new int[n];
-				for(int i=0;i<k;i++){
-					counter[in.nextInt()-1]++;
-				}
-				int minval = counter[0];
-				for(int i=1;i<n;i++){
-					if (counter[i]>minval) minval = counter[i];
-				}
-				System.out.println(minval);
+				
+				
+				//End Solver (There should be 2 parenthesis below)
 			}
 		}
 		// Insert any additional methods/classes below below
-	
+		static class Board{
+			private boolean[][] boardData;
+			public Board(int n, String s){
+				boardData = new boolean[n][n];
+				for(int i=0;i<n*n;i++){
+					boardData[i/n][i%n]=s.charAt(i)=='1'?true : false;
+				}
+				
+			}
+			public int evenIs1Parity(){
+				for(int i=0;i<boardData.length)
+			}
+		}
 		// Do not touch
 		static class InputReader {
 			public BufferedReader reader;

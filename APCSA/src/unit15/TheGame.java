@@ -18,7 +18,7 @@ public class TheGame extends JFrame
 		super("PONG");
 		setSize(WIDTH,HEIGHT);
 		
-		BreakOut2 game = new BreakOut2();
+		Breakout game = new Breakout();
 		
 		((Component)game).setFocusable(true);			
 		getContentPane().add(game);
