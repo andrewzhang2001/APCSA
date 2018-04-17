@@ -23,7 +23,6 @@ public class Ball extends Block implements Collidable
 	//add the other Ball constructors
 	public Ball(int xPos, int yPos){
 		super(xPos, yPos);
-		xSpeed = 2;
 		xSpeed = 3;
 		ySpeed = 1;
 	}
