@@ -624,6 +624,7 @@ public class SimplePicture implements DigitalPicture
  public void writeOrFail(String fileName) throws IOException
  {
    String extension = this.extension; // the default is current
+   //comment
    
    // create the file object
    File file = new File(fileName);
