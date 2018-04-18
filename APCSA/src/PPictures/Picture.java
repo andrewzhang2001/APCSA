@@ -99,6 +99,15 @@ public class Picture extends SimplePicture
     }
   }
   
+  public void keepOnlyBlue(){
+	  Pixel[][] pixels = this.getPixels2D();
+	  for(Pixel[] rowArray: pixels){
+		  for(Pixel pixelObj: rowArray){
+			  pixelObj.setGreen(0);
+			  pixelObj.setRed(0);
+		  }
+	  }
+  }
   /** Method that mirrors the picture around a 
     * vertical mirror in the center of the picture
     * from left to right */
@@ -173,12 +182,33 @@ public class Picture extends SimplePicture
       }
     }   
   }
+  
+  public void negate(){
+	  Pixel[][] pixels = this.getPixels2D();
+	  for(Pixel[] rowArray:pixels){
+		  for(Pixel pixelObj : rowArray){
+			  pixelObj.setColor(new Color(255-pixelObj.getRed(),255-pixelObj.getGreen(),255-pixelObj.getBlue()));
+		  }
+	  }
+	  
+  }
+  
+  public void grayScale(){
+	  Pixel[][] pixels = this.getPixels2D();
+	  for(Pixel[] rowArray:pixels){
+		  for(Pixel pixelObj : rowArray){
+			  int avg = pixelObj.getBlue() + pixelObj.getGreen()+pixelObj.getRed();
+			  avg = avg /3;
+			  pixelObj.setColor(new Color(avg,avg,avg));
+		  }
+	  }
+  }
 
   /** Method to create a collage of several pictures */
   public void createCollage()
   {
-    Picture flower1 = new Picture("flower1.jpg");
-    Picture flower2 = new Picture("flower2.jpg");
+    Picture flower1 = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\flower1.jpg");
+    Picture flower2 = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\flower2.jpg");
     this.copy(flower1,0,0);
     this.copy(flower2,100,0);
     this.copy(flower1,200,0);
@@ -188,9 +218,10 @@ public class Picture extends SimplePicture
     this.copy(flower1,400,0);
     this.copy(flower2,500,0);
     this.mirrorVertical();
-    this.write("collage.jpg");
+    this.write(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\collage.jpg");
   }
   
+
   
   /** Method to show large changes in color 
     * @param edgeDist the distance for finding edges
@@ -224,7 +255,7 @@ public class Picture extends SimplePicture
    */
   public static void main(String[] args) 
   {
-    Picture beach = new Picture("beach.jpg");
+    Picture beach = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\beach.jpg");
     beach.explore();
     beach.zeroBlue();
     beach.explore();
