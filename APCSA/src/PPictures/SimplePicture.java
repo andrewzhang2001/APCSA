@@ -70,6 +70,7 @@ public class SimplePicture implements DigitalPicture
    
    // load the picture into the buffered image 
    load(fileName);
+   System.out.println(fileName);
    
  }
  

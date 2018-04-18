@@ -51,6 +51,12 @@ public class PictureTester
 	  beach.explore();
   }
   
+  public static void testFixUnderwater(){
+	  Picture water = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\water.jpg");
+	  water.explore();
+	  water.fixUnderwater();
+	  water.explore();
+  }
   public static void testNegate(){
 	  Picture beach = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\beach.jpg");
 	  beach.explore();
@@ -61,6 +67,35 @@ public class PictureTester
 	  Picture beach = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\beach.jpg");
 	  beach.explore();
 	  beach.grayScale();
+	  beach.explore();
+  }
+  
+  public static void testMirrorVerticalRightToLeft(){
+	  Picture beach = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\beach.jpg");
+	  beach.explore();
+	  beach.mirrorVerticalRightToLeft();
+	  beach.explore();
+	  
+  }
+  
+  public static void testMirrorHorizontal(){
+	  Picture beach = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\beach.jpg");
+	  beach.explore();
+	  beach.mirrorHorizontal();
+	  beach.explore();
+  }
+  
+  public static void testMirrorHorizontalBotToTop(){
+	  Picture beach = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\beach.jpg");
+	  beach.explore();
+	  beach.mirrorHorizontalBotToTop();
+	  beach.explore();
+  }
+  
+  public static void testMirrorDiagonal(){
+	  Picture beach = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\beach.jpg");
+	  beach.explore();
+	  beach.mirrorDiagonal();
 	  beach.explore();
   }
   /** Method to test edgeDetection */
@@ -86,9 +121,12 @@ public class PictureTester
     //testGrayscale();
     //testFixUnderwater();
     //testMirrorVertical();
-    //testMirrorTemple();
+    testMirrorTemple();
     //testMirrorArms();
     //testMirrorGull();
+	  //testMirrorHorizontal();
+	  //testMirrorVerticalRightToLeft();
+	  //testMirrorHorizontalBotToTop();
     //testMirrorDiagonal();
     //testCollage();
     //testCopy();
