@@ -98,6 +98,13 @@ public class PictureTester
 	  beach.mirrorDiagonal();
 	  beach.explore();
   }
+  
+  public static void testMirrorArms(){
+	  Picture snowman = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\snowman.jpg");
+	  snowman.explore();
+	  snowman.mirrorArms();
+	  snowman.explore();
+  }
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
   {
@@ -121,8 +128,8 @@ public class PictureTester
     //testGrayscale();
     //testFixUnderwater();
     //testMirrorVertical();
-    testMirrorTemple();
-    //testMirrorArms();
+   // testMirrorTemple();
+    testMirrorArms();
     //testMirrorGull();
 	  //testMirrorHorizontal();
 	  //testMirrorVerticalRightToLeft();

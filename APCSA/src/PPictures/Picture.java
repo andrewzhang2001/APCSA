@@ -289,7 +289,14 @@ public class Picture extends SimplePicture
     this.write(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\collage.jpg");
   }
   
-
+  public void mirrorArms(){
+	  Pixel[][] pixels = this.getPixels2D();
+	  for(int j =100;j<170;j++){
+		  for(int i=159;i<190;i++){
+			  pixels[i+90][j-27].setColor(pixels[i][j].getColor());
+		  }
+	  }
+  }
   
   /** Method to show large changes in color 
     * @param edgeDist the distance for finding edges
