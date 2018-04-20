@@ -105,6 +105,19 @@ public class PictureTester
 	  snowman.mirrorArms();
 	  snowman.explore();
   }
+  
+  public static void testMirrorGull(){
+	  Picture seagull = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\seagull.jpg");
+	  seagull.explore();
+	  seagull.mirrorGull();
+	  seagull.explore();
+  }
+  
+  public static void testMyCollage(){
+	  Picture canvas = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\640x480.jpg");
+	  canvas.myCollage();
+	  canvas.explore();
+  }
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
   {
@@ -129,7 +142,7 @@ public class PictureTester
     //testFixUnderwater();
     //testMirrorVertical();
    // testMirrorTemple();
-    testMirrorArms();
+   // testMirrorArms();
     //testMirrorGull();
 	  //testMirrorHorizontal();
 	  //testMirrorVerticalRightToLeft();
@@ -145,5 +158,7 @@ public class PictureTester
     //testSetRedToHalfValueInTopHalf();
     //testClearBlueOverValue(200);
     //testGetAverageForColumn(0);
+	 // testMyCollage();
+	 // testEdgeDetection();
   }
 }
