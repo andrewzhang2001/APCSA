@@ -326,6 +326,82 @@ for (int fromCol = sc, toCol = startCol;
     this.write(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\collage.jpg");
   }
   
+/* 
+ * 	INCORRECT METHOD
+ *  public void blur(int x, int y, int width, int height){
+	  Pixel[][] pixels = this.getPixels2D();
+	  boolean allsame = true;
+	  int stepsize=1;
+	  while(allsame){
+		  Color firstcolor = pixels[x][y].getColor();
+		  for(int i=x;i<x+stepsize;i++){
+			  for(int j=y;j<y+stepsize;j++){
+				  if(!pixels[i][j].getColor().equals(firstcolor)) allsame = false;
+			  }
+		  }
+		  stepsize++;
+	  }
+	  System.out.println(stepsize);
+	  for(int i=x;i<x+width;i=i+stepsize){
+		  for(int j=y;j<y+height;j=j+stepsize){
+			  int[] colors = {0,0,0};
+			  for(int k=i;k<i+stepsize;k++){
+				  for(int l=j;l<j+stepsize;l++){
+					  colors[0]+=pixels[i][j].getRed();
+					  colors[1]+=pixels[i][j].getGreen();
+					  colors[2]+=pixels[i][j].getBlue();
+				  }
+			  }
+			  //System.out.println(colors[0]+" "+colors[1]+" "+colors[2]);
+			  colors[0]/=stepsize*stepsize;
+			  colors[1]/=stepsize*stepsize;
+			  colors[2]/=stepsize*stepsize;
+			  for(int k=i;k<i+stepsize;k++){
+				  for(int l=j;l<j+stepsize;l++){
+					  pixels[k][l].setColor(new Color(colors[0],colors[1],colors[2]));
+				  }
+			  }
+		  }
+	  }
+	  
+  }
+  */
+  
+  public void blur(int x , int y, int width, int height){
+	  Pixel[][] pixels = this.getPixels2D();
+	  Color[][] temp = new Color[pixels.length][pixels[0].length];
+	  for(int i=x;i<x+width;i++){
+		  for(int j=y;j<y+width;j++){
+			  if(i==0||i==pixels[0].length-1||j==0||j==pixels.length-1){
+				  continue;
+			  }
+			  else{
+				  int redsum = 0, bluesum = 0, greensum =0;
+				  for(int a = i-1;a<=i+1;a++){
+					  for(int b = j -1;b<=j+1;b++){
+						  redsum+=pixels[a][b].getRed();
+						  bluesum+=pixels[a][b].getBlue();
+						  greensum+=pixels[a][b].getGreen();
+					  }
+				  }
+				  redsum/=9;
+				  bluesum/=9;
+				  greensum/=9;
+				  temp[i][j]=new Color(redsum,greensum,bluesum);
+			  }
+			  
+		  }
+	  }
+	  for(int i=x;i<x+width;i++){
+		  for(int j=y;j<y+height;j++){
+			  if(i==0||i==pixels[0].length-1||j==0||j==pixels.length-1){
+				  continue;
+			  }
+			  else pixels[i][j].setColor(temp[i][j]);
+		  }
+	  }
+  }
+  
   
   public void mirrorArms(){
 	  Pixel[][] pixels = this.getPixels2D();

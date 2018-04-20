@@ -118,6 +118,17 @@ public class PictureTester
 	  canvas.myCollage();
 	  canvas.explore();
   }
+  
+  public static void testBlur(){
+	  Picture beach = new Picture(System.getProperty("user.dir")+"\\src\\pictures\\pixlab\\images\\barbaraS.jpg");
+	  beach.explore();
+	  beach.blur(0, 0, 100, 100);
+	  beach.explore();
+	  beach.blur(0, 0, 100, 100);
+	  beach.explore();
+	  beach.blur(0, 0, 100, 100);
+	  beach.explore();
+  }
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
   {
@@ -160,5 +171,6 @@ public class PictureTester
     //testGetAverageForColumn(0);
 	 // testMyCollage();
 	 // testEdgeDetection();
+	  testBlur();
   }
 }
