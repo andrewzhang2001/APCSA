@@ -1,1 +1,13 @@
-he
+//Instantiate a Matrix with 'Matrix matrixName = [(first row),(second row),...,(last row)]
+//Instantiate a Vector with 'Vector vectorName = <x1,x2,x3,...,xn>
+//You do not have to instantiate a Matrix or Vector, you can declare them
+//Use the basic operations + - * / to do math with vectors
+//Use the equals sign to assign pre-existing matrices/vectors a new value.
+//Use print in order to print your results!
+
+
+Matrix A = [(1,2,3),(4,5,6),(7,8,9)]
+Vector B = <1,2,3>
+Matrix C
+A=A+A
+print A * B

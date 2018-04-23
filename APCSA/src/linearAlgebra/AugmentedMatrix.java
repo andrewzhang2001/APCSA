@@ -9,7 +9,21 @@ public class AugmentedMatrix {
 		lhs = one;
 		rhs = two;
 	}
-	public void rowReduce(){
+	public void rowEchelon(){
+		while(!isEchelon()){
+			
+		}
+	}
+	public void rowReducedEchelon(){
+		
+	}
+	public boolean isEchelon(){
+		
+	}
+	public boolean isReducedEchelon(){
+		
+	}
+	public void swapRows(int rowOne, int rowTwo){
 		
 	}
 }

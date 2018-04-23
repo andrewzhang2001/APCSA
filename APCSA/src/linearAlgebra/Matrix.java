@@ -1,28 +1,28 @@
 package linearAlgebra;
 import java.util.Arrays;
 public class Matrix {
-	protected double[][] matrix;
+	protected MixedNumber[][] matrix;
 	protected int numRows;
 	protected int numCols;
 	public Matrix(int r, int c){
-		matrix = new double[r][c];
+		matrix = new MixedNumber[r][c];
 		numRows = r;
 		numCols = c;
 	}
-	public Matrix(double[][] vals){
+	public Matrix(MixedNumber[][] vals){
 		numRows = vals.length;
 		numCols = vals[0].length;
-		matrix = new double[numRows][numCols];
+		matrix = new MixedNumber[numRows][numCols];
 		for(int i=0;i<numRows;i++){
 			for(int j=0;j<numCols;j++){
 				matrix[i][j]=vals[i][j];
 			}
 		}
 	}
-	public void setValue(int r, int c, double t){
+	public void setValue(int r, int c, MixedNumber t){
 		matrix[r][c]=t;
 	}
-	public double[][] getValues(){
+	public MixedNumber[][] getValues(){
 		return matrix;
 	}
 	public int getNumRows(){
@@ -31,20 +31,20 @@ public class Matrix {
 	public int getNumCols(){
 		return numCols;
 	}
-	public double getVal(int r, int c){
+	public MixedNumber getVal(int r, int c){
 		return matrix[r][c];
 	}
 	public void fillZeroes(){
 		for(int i=0;i<numRows;i++){
 			for(int j=0;j<numCols;j++){
-				matrix[i][j]=0.0;
+				matrix[i][j]=new MixedNumber(0);
 			}
 		}
 	}
 	
 	//Matrix Operations
 	public Matrix transpose(){
-		double[][] ans = new double[numCols][numRows];
+		MixedNumber[][] ans = new MixedNumber[numCols][numRows];
 		for(int i=0;i<numRows;i++){
 			for(int j=0;j<numCols;j++){
 				ans[j][i]=matrix[i][j];
@@ -54,10 +54,10 @@ public class Matrix {
 	}
 	public Matrix add(Matrix m){
 		if(numRows==m.getNumRows()&&numCols==m.getNumCols()){
-			double[][] ans = new double[numRows][numCols];
+			MixedNumber[][] ans = new MixedNumber[numRows][numCols];
 			for(int i=0;i<numRows;i++){
 				for(int j=0;j<numCols;j++){
-					ans[i][j]=matrix[i][j]+m.getVal(i, j);
+					ans[i][j]=matrix[i][j].add(m.getVal(i, j));
 				}
 			}
 			return new Matrix(ans);
@@ -68,20 +68,29 @@ public class Matrix {
 		}
 	}
 	
+	public Matrix scale(int n){
+		MixedNumber[][] ans = matrix.clone();
+		for(int i=0;i<matrix.length;i++){
+			for(int j=0;j>matrix[0].length;j++){
+				ans[i][j].multiply(MixedNumber.valueOf(n));
+			}
+		}
+		return new Matrix(ans);
+	}
 	public Matrix multiply(Matrix m){
 		if(numCols==m.getNumRows()){
 			int ansRows = numRows;
 			int ansCols = m.getNumCols();
-			double[][] ans = new double[ansRows][ansCols];
+			MixedNumber[][] ans = new MixedNumber[ansRows][ansCols];
 			for(int i=0;i<ansRows;i++){
 				for(int j=0;j<ansCols;j++){
-					ans[i][j]=0.0;
+					ans[i][j]=new MixedNumber(0);
 				}
 			}
 			for(int i=0;i<ansRows;i++){
 				for(int j=0;j<ansCols;j++){
 					for(int k=0;k<numCols;k++){
-						ans[i][j]=ans[i][j]+this.getVal(i, k)*m.getVal(k, j);
+						ans[i][j]=ans[i][j].add(this.getVal(i, k).multiply(m.getVal(k, j)));
 					}
 				}
 			}
@@ -94,16 +103,22 @@ public class Matrix {
 	}
 	
 	public String toString(){
+		int maxLength=0;
+		for(int i=0;i<numRows;i++){
+			for(int j=0;j<numCols;j++){
+				matrix[i][j].simplify();
+				int curLen = matrix[i][j].toString().length();
+				maxLength = curLen>maxLength ? curLen : maxLength;
+				
+			}
+		}
 		String output = "{ ";
 		for(int i=0;i<numRows;i++){
 			if(i>0) output +="  ";
 			for(int j=0;j<numCols;j++){
-				String curDouble = Double.toString(matrix[i][j]);
-				for(int d=0;d<5;d++){
-					if(d<curDouble.length())
-					output+=curDouble.charAt(d);
-					else output+="0";
-				}
+				String curMixNum = matrix[i][j].toString();
+				output+=curMixNum;
+				for(int l=curMixNum.length();l<maxLength;l++) output +=" ";
 				if(j!=numCols-1) output +=", ";
 			}
 			if(i!=numRows-1) output +="\n";

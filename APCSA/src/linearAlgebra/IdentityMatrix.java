@@ -5,7 +5,7 @@ public class IdentityMatrix extends Matrix {
 		super(n,n);
 		this.fillZeroes();
 		for(int i=0;i<n;i++){
-			this.setValue(i, i, 1);
+			this.setValue(i, i, new MixedNumber(1));
 		}
 	}
 }
