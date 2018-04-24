@@ -41,15 +41,20 @@ public class Ammo extends MovingThing
 	{
 	   return speed;
 	}
+	
+	public boolean inAlien(Alien a){
+		if(this.getX()<(a.getX()+200)&&this.getX()>a.getX()&&this.getY()>a.getY()&&this.getY()<a.getY()+175) return true;
+		return false;
+	}
 
 	public void draw( Graphics window )
 	{
 		//add code to draw the ammo
 		window.setColor(Color.black);
-		window.drawRect(getX(), getY(), 10, 10);
+		window.fillRect(getX(), getY(), 10, 10);
 		window.setColor(Color.yellow);
-		this.setY(getY()-speed);
-		window.drawRect(getX(), getY(), 10, 10);
+		this.move("UP");
+		window.fillRect(getX(), getY(), 10, 10);
 	}
 
 	public String toString()

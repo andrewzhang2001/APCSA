@@ -39,6 +39,10 @@ public class Alien extends MovingThing
 			System.out.println("SAJMIL");
 		}
 	}
+	public void setIsBlack(){
+		isBlack = true;
+	}
+	
 
 	public void setSpeed(int s)
 	{

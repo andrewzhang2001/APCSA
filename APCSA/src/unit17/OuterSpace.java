@@ -19,8 +19,8 @@ import java.util.ArrayList;
 public class OuterSpace extends Canvas implements KeyListener, Runnable
 {
 	private Ship ship;
-	private Alien alienOne;
-	private Alien alienTwo;
+	private int cantShoot;
+	private Aliens invaders;
 	private boolean alienOneLeft;
 	private boolean alienTwoLeft;
 
@@ -40,12 +40,11 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
 		//instantiate other stuff
 		ship = new Ship(1,1,3);
-		alienOne = new Alien(100,100,3);
-		alienTwo = new Alien(200,170,4);
+		invaders = new Aliens();
 		this.addKeyListener(this);
 		new Thread(this).start();
-		alienOneLeft = false;
 
+		cantShoot = 100;
 		setVisible(true);
 	}
 
@@ -67,34 +66,56 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		//create a graphics reference to the back ground image
 		//we will draw all changes on the background image
 		Graphics graphToBack = back.createGraphics();
-		if(alienOne.getX()>690) alienOneLeft = true;
-		if(alienOne.getX()<69) alienOneLeft = false;
-		if(alienTwo.getX()>690) alienTwoLeft = true;
-		if(alienTwo.getX()<69) alienTwoLeft = false;
-		if(!alienTwoLeft) alienTwo.move("RIGHT");
-		else alienTwo.move("LEFT");
-		if(!alienOneLeft) alienOne.move("RIGHT");
-		else alienOne.move("LEFT");
 		graphToBack.setColor(Color.BLUE);
 		graphToBack.drawString("StarFighter ", 25, 50 );
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0,0,800,600);
+
+		
 		ship.draw(graphToBack);
-		alienOne.draw(graphToBack);
-		alienTwo.draw(graphToBack);
-		if(keys[4]) shots.add(new Ammo(ship.getX()+10, ship.getY())); 
+		for(int r=0;r<3;r++){
+			for(int c=0;c<3;c++){
+				
+				if(invaders.alienAt(r, c)!=null){
+					invaders.alienAt(r, c).draw(graphToBack);
+					if(invaders.alienAt(r, c).getX()>800||invaders.alienAt(r, c).getX()<0) invaders.alienAt(r, c).setSpeed(-invaders.alienAt(r, c).getSpeed());
+					invaders.alienAt(r, c).move("RIGHT");
+					for(int i=0;i<shots.size();i++){
+					if(shots.get(i).inAlien(invaders.alienAt(r, c))){
+						invaders.kill(r,c);
+					}
+					}
+				}
+			}
+		}
+		
 		for(Ammo i: shots){
-			i.move("UP");
-			i.draw(graphToBack);
+			if(i.getX()>0){
+				
+				i.draw(graphToBack);
+ 
+			}
+
 		}
 		if(keys[0] == true)
 		{
 			ship.move("LEFT");
 		}
 
+
 		if(keys[1]) ship.move("RIGHT");
 		if(keys[2]) ship.move("UP");
 		if(keys[3]) ship.move("DOWN");
+		if(keys[4]&&cantShoot>100) {
+			cantShoot = 0;
+			shots.add(new Ammo(ship.getX()+10, ship.getY(), 4)); 
+		}
+		else{
+			if(cantShoot<1000)
+			cantShoot++;
+		}
+
+		
 		//add code to move stuff
 		
 
@@ -166,7 +187,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
    	{
    		while(true)
    		{
-   		   Thread.currentThread().sleep(5);
+   		   Thread.currentThread().sleep(10);
             repaint();
          }
       }catch(Exception e)
