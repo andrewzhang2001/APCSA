@@ -103,12 +103,12 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		}
 
 
-		if(keys[1]) ship.move("RIGHT");
-		if(keys[2]) ship.move("UP");
+		if(keys[1]) ship.move("RIGHT");  
+		if(keys[2]) ship.move("UP"); 
 		if(keys[3]) ship.move("DOWN");
 		if(keys[4]&&cantShoot>100) {
 			cantShoot = 0;
-			shots.add(new Ammo(ship.getX()+10, ship.getY(), 4)); 
+			shots.add(new Ammo(ship.getX()+35, ship.getY(), 4)); 
 		}
 		else{
 			if(cantShoot<1000)

@@ -43,7 +43,7 @@ public class Ammo extends MovingThing
 	}
 	
 	public boolean inAlien(Alien a){
-		if(this.getX()<(a.getX()+200)&&this.getX()>a.getX()&&this.getY()>a.getY()&&this.getY()<a.getY()+175) return true;
+		if(this.getX()<(a.getX()+60)&&this.getX()>a.getX()+10&&this.getY()>a.getY()&&this.getY()<a.getY()+100) return true;
 		return false;
 	}
 
