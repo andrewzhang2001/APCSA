@@ -14,7 +14,8 @@ public class Alien extends MovingThing
 {
 	private int speed;
 	private Image image;
-
+	private int shootCounter=0;
+	private int shootThreshold = 100+(int)(20*Math.random());
 	public Alien()
 	{
 		this(0,0,0);
@@ -39,8 +40,15 @@ public class Alien extends MovingThing
 			System.out.println("SAJMIL");
 		}
 	}
-	public void setIsBlack(){
-		isBlack = true;
+	public boolean willShoot(){
+		if(shootCounter>shootThreshold){
+			shootCounter =0;
+			return true;
+		}
+		else{
+			shootCounter++;
+			return false;
+		}
 	}
 	
 

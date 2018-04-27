@@ -23,10 +23,12 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 	private Aliens invaders;
 	private boolean alienOneLeft;
 	private boolean alienTwoLeft;
-
-	 
+	private boolean hasShield;
+	private PowerUp shield;
 	private ArrayList<Alien> aliens;
-	private ArrayList<Ammo> shots=new ArrayList<Ammo>();;
+	private ArrayList<Ammo> shots=new ArrayList<Ammo>();
+	private ArrayList<Ammo> alienShots = new ArrayList<Ammo>();
+	private int score = 0;
 	
 
 	private boolean[] keys;
@@ -39,13 +41,14 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		keys = new boolean[5];
 
 		//instantiate other stuff
-		ship = new Ship(1,1,3);
+		ship = new Ship(400,400,3);
 		invaders = new Aliens();
 		this.addKeyListener(this);
 		new Thread(this).start();
-
+		shield = new PowerUp(100,100);
 		cantShoot = 100;
 		setVisible(true);
+		hasShield = false;
 	}
 
    public void update(Graphics window)
@@ -70,19 +73,32 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 		graphToBack.drawString("StarFighter ", 25, 50 );
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0,0,800,600);
-
 		
+
 		ship.draw(graphToBack);
+		if(!hasShield){
+			if(ship.hitPowerUp(shield)){
+				System.out.println("POWERUP");
+				hasShield = true;
+				ship.gainShield();
+				shield = null;
+			}
+			else shield.draw(graphToBack);
+		}
 		for(int r=0;r<3;r++){
 			for(int c=0;c<3;c++){
 				
 				if(invaders.alienAt(r, c)!=null){
+					if(invaders.alienAt(r, c).willShoot()){
+						alienShots.add(new Ammo(invaders.alienAt(r, c).getX()+50, invaders.alienAt(r, c).getY()+50, -1));
+					}
 					invaders.alienAt(r, c).draw(graphToBack);
-					if(invaders.alienAt(r, c).getX()>800||invaders.alienAt(r, c).getX()<0) invaders.alienAt(r, c).setSpeed(-invaders.alienAt(r, c).getSpeed());
+					if(invaders.alienAt(r, c).getX()>680||invaders.alienAt(r, c).getX()<0) invaders.alienAt(r, c).setSpeed(-invaders.alienAt(r, c).getSpeed());
 					invaders.alienAt(r, c).move("RIGHT");
 					for(int i=0;i<shots.size();i++){
 					if(shots.get(i).inAlien(invaders.alienAt(r, c))){
 						invaders.kill(r,c);
+						score++;
 					}
 					}
 				}
@@ -97,6 +113,20 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 			}
 
 		}
+		for(Ammo i:alienShots){
+			if(i!=null){
+				if(i.hitShip(ship)){
+					i.setX(1000);
+					i = null;
+					if(!hasShield)score = score -1;
+					System.out.println("HIT");
+				}
+				else if(i.getX()<800){
+					i.draw(graphToBack);
+				}
+			}
+		}
+		graphToBack.drawString("SCORE = "+score, 20, 20);
 		if(keys[0] == true)
 		{
 			ship.move("LEFT");
@@ -121,7 +151,7 @@ public class OuterSpace extends Canvas implements KeyListener, Runnable
 
 		//add in collision detection
 
-
+	
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
 

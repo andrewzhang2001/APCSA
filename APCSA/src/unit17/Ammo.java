@@ -46,6 +46,10 @@ public class Ammo extends MovingThing
 		if(this.getX()<(a.getX()+60)&&this.getX()>a.getX()+10&&this.getY()>a.getY()&&this.getY()<a.getY()+100) return true;
 		return false;
 	}
+	public boolean hitShip(Ship a){
+		if(this.getX()<(a.getX()+60)&&this.getX()>a.getX()+10&&this.getY()>a.getY()&&this.getY()<a.getY()+60) return true;
+		return false;
+	}
 
 	public void draw( Graphics window )
 	{

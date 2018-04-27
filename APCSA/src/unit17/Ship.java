@@ -39,7 +39,20 @@ public class Ship extends MovingThing
 			System.out.println("402 glaze it");
 		}
 	}
-	
+	public void gainShield(){
+		try{
+			image = ImageIO.read(new File(System.getProperty("user.dir")+"\\src\\unit17\\ship.jpgWithShield.jpg"));
+		}
+		
+		catch(Exception e){
+			System.out.println("Unlucky");
+		}
+		
+	}
+	public boolean hitPowerUp(PowerUp a){
+		if(this.getX()<(a.getX()+80)&&this.getX()+80>a.getX()&&this.getY()+80>a.getY()&&this.getY()<a.getY()+80) return true;
+		return false;
+	}
 
 
 	public void setSpeed(int s)
@@ -56,6 +69,14 @@ public class Ship extends MovingThing
 	public void draw( Graphics window )
 	{
 		window.drawImage(image,getX(),getY(),80,80,null);
+	}
+	public boolean collideWithPowerUp(PowerUp p){
+		if(this.getX()+50>p.getX()&&this.getX()<p.getX()){
+			if(this.getY()+50<p.getY()&&this.getY()<p.getY()+50){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public String toString()
