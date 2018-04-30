@@ -23,7 +23,9 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 
 	private boolean[] keys;
 	private BufferedImage back;
-
+	private ArcherTower adam;
+	private XBow raymond;
+	private InfernoTower andy;
 	public Battlefield()
 	{
 		setBackground(Color.black);
@@ -31,7 +33,9 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		keys = new boolean[5];
 
 		//instantiate other stuff
-		
+		adam = new ArcherTower(50,50,30, 30,9);
+		raymond = new XBow(150,150,90,90,11);
+		andy = new InfernoTower(300,300,180,90,9);
 		this.addKeyListener(this);
 		new Thread(this).start();
 		setVisible(true);
@@ -60,8 +64,9 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		graphToBack.drawString("StarFighter ", 25, 50 );
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0,0,800,600);
-		
-
+		adam.draw(graphToBack);
+		raymond.draw(graphToBack);
+		andy.draw(graphToBack);
 		
 		
 
