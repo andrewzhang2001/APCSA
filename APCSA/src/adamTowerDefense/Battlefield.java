@@ -26,6 +26,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 	private ArcherTower adam;
 	private XBow raymond;
 	private InfernoTower andy;
+	private Tile[][] tiles = new Tile[8][23];
 	public Battlefield()
 	{
 		setBackground(Color.black);
@@ -33,9 +34,15 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		keys = new boolean[5];
 
 		//instantiate other stuff
-		adam = new ArcherTower(50,50,30, 30,9);
+		adam = new ArcherTower(30,30,30, 30,9);
 		raymond = new XBow(150,150,90,90,11);
 		andy = new InfernoTower(300,300,180,90,9);
+		for(int i=0;i<8;i++){
+			for(int j=0;j<23;j++){
+				tiles[i][j]=new Tile(30*i,30*j);
+				System.out.println(tiles[i][j].getX()+" "+tiles[i][j].getY()+" FFFF");
+			}
+		}
 		this.addKeyListener(this);
 		new Thread(this).start();
 		setVisible(true);
@@ -67,7 +74,12 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		adam.draw(graphToBack);
 		raymond.draw(graphToBack);
 		andy.draw(graphToBack);
-		
+		for(int i=0;i<8;i++){
+			for(int j=0;j<23;j++){
+				//System.out.println(tiles[i][j].getX()+" "+tiles[i][j].getY());
+				tiles[i][j].draw(graphToBack);
+			}
+		}
 		
 
 		
