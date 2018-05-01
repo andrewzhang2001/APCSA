@@ -3,8 +3,8 @@ package adamTowerDefense;
 public abstract class DamagingBuilding extends Building{
 	protected int DMG;
 	protected int range;
-	public DamagingBuilding(int x, int y, int hp, int DMG, int range){
-		super(x,y,hp);
+	public DamagingBuilding(int r, int c, int hp, int DMG, int range){
+		super(r,c,hp);
 		this.DMG=DMG;
 		this.range=range;
 	}

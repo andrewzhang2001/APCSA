@@ -15,8 +15,10 @@ import static java.lang.Character.*;
 import java.awt.image.BufferedImage;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
 
-public class Battlefield extends Canvas implements KeyListener, Runnable
+public class Battlefield extends Canvas implements KeyListener, Runnable, MouseListener
 {
 
 	
@@ -27,6 +29,16 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 	private XBow raymond;
 	private InfernoTower andy;
 	private Tile[][] tiles = new Tile[8][23];
+	private GoldMine binaryoptions;
+	private int count = 0;
+	private int curMouseXPos;
+	private int curMouseYPos;
+	private boolean mousePressed=false;
+	private int curSelectedTileRow;
+	private int curSelectedTileCol;
+	private boolean tileIsSelected;
+	
+	private boolean buildTime=false;
 	public Battlefield()
 	{
 		setBackground(Color.black);
@@ -34,16 +46,18 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 		keys = new boolean[5];
 
 		//instantiate other stuff
-		adam = new ArcherTower(30,30,30, 30,9);
-		raymond = new XBow(150,150,90,90,11);
-		andy = new InfernoTower(300,300,180,90,9);
+		adam = new ArcherTower(0,0,30, 30,9);
+		raymond = new XBow(3,5,90,90,11);
+		andy = new InfernoTower(4,10,180,90,9);
 		for(int i=0;i<8;i++){
 			for(int j=0;j<23;j++){
-				tiles[i][j]=new Tile(30*i,30*j);
-				System.out.println(tiles[i][j].getX()+" "+tiles[i][j].getY()+" FFFF");
+				tiles[i][j]=new Tile(30*j,30*i);
 			}
 		}
+		binaryoptions = new GoldMine(1,10,100);
+		buildTime = true;
 		this.addKeyListener(this);
+		this.addMouseListener(this);
 		new Thread(this).start();
 		setVisible(true);
 		
@@ -66,21 +80,48 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 
 		//create a graphics reference to the back ground image
 		//we will draw all changes on the background image
+		
 		Graphics graphToBack = back.createGraphics();
 		graphToBack.setColor(Color.BLUE);
 		graphToBack.drawString("StarFighter ", 25, 50 );
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0,0,800,600);
+		
 		adam.draw(graphToBack);
 		raymond.draw(graphToBack);
 		andy.draw(graphToBack);
-		for(int i=0;i<8;i++){
-			for(int j=0;j<23;j++){
+		binaryoptions.draw(graphToBack);
+		if(buildTime){
+			if(mousePressed){
+				if(curMouseYPos<240&&curMouseXPos<690){
+					curSelectedTileRow = curMouseYPos/30;
+					curSelectedTileCol = curMouseXPos/30;
+					tileIsSelected = true;
+					
+				}
+			}
+			if(tileIsSelected){
+				for(int i=0;i<8;i++){
+					for(int j=0;j<23;j++){
+						tiles[i][j].setCurSelected(curSelectedTileRow==i&&curSelectedTileCol==j ? true : false);
+					}
+				}
+			}
+			for(int i=0;i<8;i++){
+				for(int j=0;j<23;j++){
 				//System.out.println(tiles[i][j].getX()+" "+tiles[i][j].getY());
-				tiles[i][j].draw(graphToBack);
+					tiles[i][j].draw(graphToBack);
+				}
+			}
+			if(tileIsSelected){
+				tiles[curSelectedTileRow][curSelectedTileCol].draw(graphToBack);
 			}
 		}
 		
+		
+		else{
+			tileIsSelected = false;
+		}
 
 		
 		//add code to move stuff
@@ -147,7 +188,32 @@ public class Battlefield extends Canvas implements KeyListener, Runnable
 	{
 
 	}
+	public void mousePressed(MouseEvent e){
+		System.out.println("Hi");
+		if(e.getButton()==MouseEvent.BUTTON1)
+		{
+			mousePressed = true;
+			curMouseXPos = e.getX();
+			curMouseYPos = e.getY();
+		}
+	}
+    public void mouseReleased(MouseEvent e) {
+    	if(e.getButton()==MouseEvent.BUTTON1){
+    		mousePressed = false;
+    	}
+    }
+    
+    public void mouseEntered(MouseEvent e) {
+  
+    }
+    
+    public void mouseExited(MouseEvent e) {
 
+    }
+    
+    public void mouseClicked(MouseEvent e) {
+
+    }
    public void run()
    {
    	try

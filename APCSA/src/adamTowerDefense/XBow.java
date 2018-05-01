@@ -5,8 +5,10 @@ import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 public class XBow extends DamagingBuilding{
-	public XBow(int x, int y, int hp, int dmg, int range){
-		super(x,y,hp,dmg, range);
+	public XBow(int r, int c, int hp, int dmg, int range){
+		super(r,c,hp,dmg, range);
+		this.width=3;
+		this.height=3;
 		try{
 			image = ImageIO.read(new File(System.getProperty("user.dir")+"\\src\\adamTowerDefense\\xbow.png"));
 		}
@@ -16,6 +18,6 @@ public class XBow extends DamagingBuilding{
 		
 	}
 	public void draw(Graphics window){
-		window.drawImage(image, X-30, Y-30, 90, 90, null);
+		window.drawImage(image, X, Y, 90, 90, null);
 	}
 }
