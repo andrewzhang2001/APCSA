@@ -17,6 +17,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
+import java.util.*;
 
 public class Battlefield extends Canvas implements KeyListener, Runnable, MouseListener
 {
@@ -25,11 +26,9 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 
 	private boolean[] keys;
 	private BufferedImage back;
-	private ArcherTower adam;
-	private XBow raymond;
-	private InfernoTower andy;
+
 	private Tile[][] tiles = new Tile[8][23];
-	private GoldMine binaryoptions;
+
 	private int count = 0;
 	private int curMouseXPos;
 	private int curMouseYPos;
@@ -37,24 +36,22 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 	private int curSelectedTileRow;
 	private int curSelectedTileCol;
 	private boolean tileIsSelected;
-	
+	private boolean[][] occupiedTiles = new boolean[8][23];
+	private List<Building> buildings = new LinkedList<Building>(); 
 	private boolean buildTime=false;
 	public Battlefield()
 	{
 		setBackground(Color.black);
 
-		keys = new boolean[5];
+		keys = new boolean[10];
 
 		//instantiate other stuff
-		adam = new ArcherTower(0,0,30, 30,9);
-		raymond = new XBow(3,5,90,90,11);
-		andy = new InfernoTower(4,10,180,90,9);
 		for(int i=0;i<8;i++){
 			for(int j=0;j<23;j++){
 				tiles[i][j]=new Tile(30*j,30*i);
 			}
 		}
-		binaryoptions = new GoldMine(1,10,100);
+
 		buildTime = true;
 		this.addKeyListener(this);
 		this.addMouseListener(this);
@@ -86,18 +83,15 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		graphToBack.drawString("StarFighter ", 25, 50 );
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0,0,800,600);
-		
-		adam.draw(graphToBack);
-		raymond.draw(graphToBack);
-		andy.draw(graphToBack);
-		binaryoptions.draw(graphToBack);
+		for(Building i : buildings){
+			i.draw(graphToBack);
+		}
 		if(buildTime){
 			if(mousePressed){
 				if(curMouseYPos<240&&curMouseXPos<690){
 					curSelectedTileRow = curMouseYPos/30;
 					curSelectedTileCol = curMouseXPos/30;
 					tileIsSelected = true;
-					
 				}
 			}
 			if(tileIsSelected){
@@ -116,6 +110,72 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 			if(tileIsSelected){
 				tiles[curSelectedTileRow][curSelectedTileCol].draw(graphToBack);
 			}
+			if(tileIsSelected){
+				if(keys[1]){
+					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 1,1)){
+						buildings.add(new Wall(curSelectedTileRow, curSelectedTileCol, 100));
+						occupiedTiles[curSelectedTileRow][curSelectedTileCol] = true;
+					}
+					else{
+						System.out.println("CANT ADD WALL HERE");
+					}
+				}
+				else if(keys[2]){
+					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,3)){
+						buildings.add(new ArcherTower(curSelectedTileRow, curSelectedTileCol, 100,100,9));
+						for(int i=0;i<3;i++){
+							for(int j=0;j<3;j++){
+								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
+							}
+						}
+					}
+					else{
+						System.out.println("CANT ADD ARCHER TOWER HERE");
+					}
+				}
+				else if(keys[3]){
+					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,3)){
+						buildings.add(new XBow(curSelectedTileRow, curSelectedTileCol, 100,100,14));
+						for(int i=0;i<3;i++){
+							for(int j=0;j<3;j++){
+								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
+							}
+						}
+					}
+					else{
+						System.out.println("CANT ADD XBOW HERE");
+					}
+				}
+				else if(keys[4]){
+					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,2)){
+						buildings.add(new InfernoTower(curSelectedTileRow, curSelectedTileCol, 100,100,9));
+						for(int i=0;i<3;i++){
+							for(int j=0;j<2;j++){
+								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
+							}
+						}
+					}
+					else{
+						System.out.println("CANT ADD INFERNO TOWER HERE");
+					}
+				}
+				else if(keys[5]){
+					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,3)){
+						buildings.add(new GoldMine(curSelectedTileRow, curSelectedTileCol, 100));
+						for(int i=0;i<3;i++){
+							for(int j=0;j<3;j++){
+								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
+							}
+						}
+					}
+					else{
+						System.out.println("CANT ADD GOLD MINE HERE HERE");
+					}
+					
+				}
+				
+
+			}
 		}
 		
 		
@@ -133,53 +193,67 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
 
-
+	public boolean checkIfValid(int r, int c, int getHeight, int getWidth){
+		for(int i=r;i<r+getHeight;i++){
+			for(int j=c;j<c+getWidth;j++){
+				if(i>=8||j>=23||occupiedTiles[i][j]){return false;
+				}
+			}
+		}
+		return true;
+	}
 	public void keyPressed(KeyEvent e)
 	{
-		if (e.getKeyCode() == KeyEvent.VK_LEFT)
-		{
-			keys[0] = true;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+		if (e.getKeyCode() == KeyEvent.VK_1)
 		{
 			keys[1] = true;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_UP)
+		if (e.getKeyCode() == KeyEvent.VK_2)
 		{
 			keys[2] = true;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_DOWN)
+		if (e.getKeyCode() == KeyEvent.VK_3)
 		{
 			keys[3] = true;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_SPACE)
+		if (e.getKeyCode() == KeyEvent.VK_4)
 		{
 			keys[4] = true;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_5)
+		{
+			keys[5] = true;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_DELETE){
+			keys[6]=true;
 		}
 		repaint();
 	}
 
 	public void keyReleased(KeyEvent e)
 	{
-		if (e.getKeyCode() == KeyEvent.VK_LEFT)
-		{
-			keys[0] = false;
-		}
-		if (e.getKeyCode() == KeyEvent.VK_RIGHT)
+		if (e.getKeyCode() == KeyEvent.VK_1)
 		{
 			keys[1] = false;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_UP)
+		if (e.getKeyCode() == KeyEvent.VK_2)
 		{
 			keys[2] = false;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_DOWN)
+		if (e.getKeyCode() == KeyEvent.VK_3)
 		{
 			keys[3] = false;
 		}
-		if (e.getKeyCode() == KeyEvent.VK_SPACE)
+		if (e.getKeyCode() == KeyEvent.VK_4)
 		{
 			keys[4] = false;
+		}
+		if (e.getKeyCode() == KeyEvent.VK_5)
+		{
+			keys[5] = false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_DELETE){
+			keys[6]=false;
 		}
 		repaint();
 	}
