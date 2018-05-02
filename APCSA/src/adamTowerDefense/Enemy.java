@@ -10,12 +10,12 @@ public abstract class Enemy {
 	protected int x;
 	protected int y;
 	protected int range;
-	public Enemy(int x, int y, int hp ,int dmg, int range){
+	protected int speed;
+	public Enemy(int x, int y){
 		this.x=x;
 		this.y=y;
-		this.hp=hp;
-		this.dmg=dmg;
-		this.range = range;
+
 	}
+	public abstract void move();
 	public abstract void draw(Graphics window);
 }

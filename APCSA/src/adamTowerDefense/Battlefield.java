@@ -30,6 +30,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 	private Tile[][] tiles = new Tile[8][23];
 
 	private int count = 0;
+	private int moneys=0;
 	private int curMouseXPos;
 	private int curMouseYPos;
 	private boolean mousePressed=false;
@@ -38,20 +39,21 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 	private boolean tileIsSelected;
 	private boolean[][] occupiedTiles = new boolean[8][23];
 	private List<Building> buildings = new LinkedList<Building>(); 
+	private List<Enemy> enemies = new ArrayList<Enemy>();
 	private boolean buildTime=false;
 	public Battlefield()
 	{
 		setBackground(Color.black);
-
+		
 		keys = new boolean[10];
-
+		
 		//instantiate other stuff
 		for(int i=0;i<8;i++){
 			for(int j=0;j<23;j++){
 				tiles[i][j]=new Tile(30*j,30*i);
 			}
 		}
-
+		moneys = 10000;
 		buildTime = true;
 		this.addKeyListener(this);
 		this.addMouseListener(this);
@@ -86,8 +88,31 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		for(Building i : buildings){
 			i.draw(graphToBack);
 		}
+		graphToBack.setColor(Color.GREEN);
+		graphToBack.drawString("CASH: $"+moneys, 720, 50);
 		if(buildTime){
+			Color before = graphToBack.getColor();
+			graphToBack.setColor(Color.red);
+			graphToBack.fillRect(410, 390, 180, 50);
+			graphToBack.setColor(Color.YELLOW);
+			graphToBack.drawString("SEND ME THE NEXT WAVE", 420, 420);
+			graphToBack.setColor(Color.GRAY);
+			graphToBack.fillRect(30, 300, 300, 200);
+			graphToBack.setColor(Color.BLUE);
+			graphToBack.drawString("THE SHOP", 130, 315);
+			graphToBack.drawString("WALL [1]: 500 GOLD" , 50, 345);
+			graphToBack.drawString("ARCHER TOWER [2]: 5000 GOLD" , 50, 375);
+			graphToBack.drawString("XBOW [3]: 12000 GOLD" , 50, 405);
+			graphToBack.drawString("INFERNO TOWER [4]: 20000 GOLD" , 50, 435);
+			graphToBack.drawString("GOLD MINE [5]: 1000 GOLD" , 50, 465);
+			graphToBack.drawString("SELL TOWER [DELETE]: ENTIRE REFUND :)" , 50, 495);
+			graphToBack.setColor(before);
 			if(mousePressed){
+				if(curMouseXPos<=590&&curMouseXPos>=410&&curMouseYPos<=440&&curMouseYPos>=390){
+					buildTime = false;
+					return;
+					
+				}
 				if(curMouseYPos<240&&curMouseXPos<690){
 					curSelectedTileRow = curMouseYPos/30;
 					curSelectedTileCol = curMouseXPos/30;
@@ -174,10 +199,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 					
 				}
 				else if(keys[6]){
-					System.out.println("HIAAA");
 					if(occupiedTiles[curSelectedTileRow][curSelectedTileCol]){
 						ListIterator<Building> it = buildings.listIterator();
-						System.out.println("HI");
 						while(it.hasNext()){
 							Building cur = it.next();
 							if(curSelectedTileRow>=cur.getRow()&&curSelectedTileRow<cur.getRow()+cur.getHeight()
@@ -202,8 +225,17 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		}
 		
 		
-		else{
+		else if(!buildTime){
 			tileIsSelected = false;
+			count++;
+			if(count>100){
+				enemies.add(new Barbarian((int)(Math.random()*690), 500));
+				count = 0;
+			}
+			for(Enemy e:enemies){
+				e.move();
+				e.draw(graphToBack);
+			}
 		}
 
 		
