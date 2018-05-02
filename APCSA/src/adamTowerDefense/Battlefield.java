@@ -173,6 +173,29 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 					}
 					
 				}
+				else if(keys[6]){
+					System.out.println("HIAAA");
+					if(occupiedTiles[curSelectedTileRow][curSelectedTileCol]){
+						ListIterator<Building> it = buildings.listIterator();
+						System.out.println("HI");
+						while(it.hasNext()){
+							Building cur = it.next();
+							if(curSelectedTileRow>=cur.getRow()&&curSelectedTileRow<cur.getRow()+cur.getHeight()
+							&&curSelectedTileCol>=cur.getCol()&&curSelectedTileCol<cur.getCol()+cur.getWidth()){
+								it.remove();
+								for(int i=0;i<cur.getHeight();i++){
+									for(int j=0;j<cur.getWidth();j++){
+										occupiedTiles[cur.getRow()+i][cur.getCol()+j]=false;
+									}
+								}
+								break;
+							}
+						}
+					}
+					else{
+						System.out.println("NOTHING TO DO HERE");
+					}
+				}
 				
 
 			}

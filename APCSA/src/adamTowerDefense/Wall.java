@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 public class Wall extends Building{
 	public Wall(int row, int col, int hp){
 		super(row,col,hp);
+		this.height=1;
+		this.width=1;
 	}
 	public void draw(Graphics window){
 		window.setColor(Color.BLUE);
