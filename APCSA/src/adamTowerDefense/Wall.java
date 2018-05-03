@@ -9,6 +9,7 @@ public class Wall extends Building{
 		super(row,col,hp);
 		this.height=1;
 		this.width=1;
+		this.cost=500;
 	}
 	public void draw(Graphics window){
 		window.setColor(Color.BLUE);

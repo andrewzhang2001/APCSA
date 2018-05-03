@@ -12,6 +12,7 @@ public abstract class Building{
 	private int col;
 	protected int height;
 	protected int width;
+	protected int cost;
 	protected boolean alive;
 	protected Image image;
 	public Building(int row, int col, int HP){
@@ -55,6 +56,9 @@ public abstract class Building{
 	}
 	public int getHeight(){
 		return height;
+	}
+	public int getCost(){
+		return cost;
 	}
 	public abstract void draw(Graphics window);
 }

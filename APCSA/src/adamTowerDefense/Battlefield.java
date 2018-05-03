@@ -136,18 +136,20 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 				tiles[curSelectedTileRow][curSelectedTileCol].draw(graphToBack);
 			}
 			if(tileIsSelected){
-				if(keys[1]){
+				if(keys[1]&&moneys>=500){
 					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 1,1)){
 						buildings.add(new Wall(curSelectedTileRow, curSelectedTileCol, 100));
+						moneys-=500;
 						occupiedTiles[curSelectedTileRow][curSelectedTileCol] = true;
 					}
 					else{
 						System.out.println("CANT ADD WALL HERE");
 					}
 				}
-				else if(keys[2]){
+				else if(keys[2]&&moneys>=5000){
 					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,3)){
 						buildings.add(new ArcherTower(curSelectedTileRow, curSelectedTileCol, 100,100,9));
+						moneys-=5000;
 						for(int i=0;i<3;i++){
 							for(int j=0;j<3;j++){
 								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
@@ -158,9 +160,10 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 						System.out.println("CANT ADD ARCHER TOWER HERE");
 					}
 				}
-				else if(keys[3]){
+				else if(keys[3]&&moneys>=12000){
 					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,3)){
 						buildings.add(new XBow(curSelectedTileRow, curSelectedTileCol, 100,100,14));
+						moneys-=12000;
 						for(int i=0;i<3;i++){
 							for(int j=0;j<3;j++){
 								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
@@ -171,9 +174,10 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 						System.out.println("CANT ADD XBOW HERE");
 					}
 				}
-				else if(keys[4]){
+				else if(keys[4]&&moneys>=20000){
 					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,2)){
 						buildings.add(new InfernoTower(curSelectedTileRow, curSelectedTileCol, 100,100,9));
+						moneys-=20000;
 						for(int i=0;i<3;i++){
 							for(int j=0;j<2;j++){
 								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
@@ -184,9 +188,10 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 						System.out.println("CANT ADD INFERNO TOWER HERE");
 					}
 				}
-				else if(keys[5]){
+				else if(keys[5]&&moneys>=1000){
 					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,3)){
 						buildings.add(new GoldMine(curSelectedTileRow, curSelectedTileCol, 100));
+						moneys-=1000;
 						for(int i=0;i<3;i++){
 							for(int j=0;j<3;j++){
 								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
@@ -203,9 +208,12 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 						ListIterator<Building> it = buildings.listIterator();
 						while(it.hasNext()){
 							Building cur = it.next();
+							it.previous();
+							int cost = it.next().getCost();
 							if(curSelectedTileRow>=cur.getRow()&&curSelectedTileRow<cur.getRow()+cur.getHeight()
 							&&curSelectedTileCol>=cur.getCol()&&curSelectedTileCol<cur.getCol()+cur.getWidth()){
 								it.remove();
+								moneys+=cost;
 								for(int i=0;i<cur.getHeight();i++){
 									for(int j=0;j<cur.getWidth();j++){
 										occupiedTiles[cur.getRow()+i][cur.getCol()+j]=false;
