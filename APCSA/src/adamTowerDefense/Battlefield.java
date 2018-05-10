@@ -37,6 +37,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 	private int curSelectedTileRow;
 	private int curSelectedTileCol;
 	private boolean tileIsSelected;
+	private int income = 5000;
 	private boolean[][] occupiedTiles = new boolean[8][23];
 	private List<Building> buildings = new LinkedList<Building>(); 
 	private List<Enemy> enemies = new ArrayList<Enemy>();
@@ -95,7 +96,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 			graphToBack.setColor(Color.red);
 			graphToBack.fillRect(410, 390, 180, 50);
 			graphToBack.setColor(Color.YELLOW);
-			graphToBack.drawString("SEND ME THE NEXT WAVE", 420, 420);
+			graphToBack.drawString("GIVE ME SOME GOLD", 420, 420);
 			graphToBack.setColor(Color.GRAY);
 			graphToBack.fillRect(30, 300, 300, 200);
 			graphToBack.setColor(Color.BLUE);
@@ -109,8 +110,9 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 			graphToBack.setColor(before);
 			if(mousePressed){
 				if(curMouseXPos<=590&&curMouseXPos>=410&&curMouseYPos<=440&&curMouseYPos>=390){
-					buildTime = false;
-					return;
+					moneys+=income;
+					mousePressed = false;
+					
 					
 				}
 				if(curMouseYPos<240&&curMouseXPos<690){
@@ -192,6 +194,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 					if(checkIfValid(curSelectedTileRow, curSelectedTileCol, 3,3)){
 						buildings.add(new GoldMine(curSelectedTileRow, curSelectedTileCol, 100));
 						moneys-=1000;
+						income+=1000;
 						for(int i=0;i<3;i++){
 							for(int j=0;j<3;j++){
 								occupiedTiles[curSelectedTileRow+i][curSelectedTileCol+j]=true;
@@ -212,6 +215,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 							int cost = it.next().getCost();
 							if(curSelectedTileRow>=cur.getRow()&&curSelectedTileRow<cur.getRow()+cur.getHeight()
 							&&curSelectedTileCol>=cur.getCol()&&curSelectedTileCol<cur.getCol()+cur.getWidth()){
+								System.out.println(cur.getClass().getName());
+								if(cur.getClass().getName().equals("adamTowerDefense.GoldMine")) income-=1000;
 								it.remove();
 								moneys+=cost;
 								for(int i=0;i<cur.getHeight();i++){
