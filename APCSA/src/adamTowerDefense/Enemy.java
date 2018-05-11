@@ -16,6 +16,12 @@ public abstract class Enemy {
 		this.y=y;
 
 	}
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
 	public abstract void move();
 	public abstract void draw(Graphics window);
 }

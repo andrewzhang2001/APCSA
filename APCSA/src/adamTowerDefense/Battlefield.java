@@ -18,6 +18,9 @@ import java.util.ArrayList;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.util.*;
+import java.awt.Image;
+import java.io.File;
+import javax.imageio.ImageIO;
 
 public class Battlefield extends Canvas implements KeyListener, Runnable, MouseListener
 {
@@ -41,7 +44,10 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 	private boolean[][] occupiedTiles = new boolean[8][23];
 	private List<Building> buildings = new LinkedList<Building>(); 
 	private List<Enemy> enemies = new ArrayList<Enemy>();
+	private List<Ammo> bullets = new ArrayList<Ammo>();
 	private boolean buildTime=false;
+	private boolean introScreen = true;
+	private Image image;
 	public Battlefield()
 	{
 		setBackground(Color.black);
@@ -53,6 +59,12 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 			for(int j=0;j<23;j++){
 				tiles[i][j]=new Tile(30*j,30*i);
 			}
+		}
+		try{
+			image = ImageIO.read(new File(System.getProperty("user.dir")+"\\src\\adamTowerDefense\\TITLESLIDE.png"));
+		}
+		catch(Exception e){
+			
 		}
 		moneys = 10000;
 		buildTime = true;
@@ -82,16 +94,20 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		//we will draw all changes on the background image
 		
 		Graphics graphToBack = back.createGraphics();
-		graphToBack.setColor(Color.BLUE);
-		graphToBack.drawString("StarFighter ", 25, 50 );
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.fillRect(0,0,800,600);
-		for(Building i : buildings){
-			i.draw(graphToBack);
+		if(introScreen){
+			graphToBack.drawImage(image, 0, 0, 800, 600, null);
+			if(mousePressed) introScreen = false;
 		}
-		graphToBack.setColor(Color.GREEN);
-		graphToBack.drawString("CASH: $"+moneys, 720, 50);
-		if(buildTime){
+		else if(buildTime){
+
+			for(Building i : buildings){
+				i.draw(graphToBack);
+			}
+			graphToBack.setColor(Color.GREEN);
+			graphToBack.drawString("CASH: $"+moneys, 720, 50);
+			graphToBack.drawString("INCOME: $"+income, 720, 70);
 			Color before = graphToBack.getColor();
 			graphToBack.setColor(Color.red);
 			graphToBack.fillRect(410, 390, 180, 50);
@@ -295,6 +311,9 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		if(e.getKeyCode()==KeyEvent.VK_DELETE){
 			keys[6]=true;
 		}
+		if(e.getKeyCode()==KeyEvent.VK_0){
+			keys[7]=false;
+		}
 		repaint();
 	}
 
@@ -322,6 +341,9 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		}
 		if(e.getKeyCode()==KeyEvent.VK_DELETE){
 			keys[6]=false;
+		}
+		if(e.getKeyCode()==KeyEvent.VK_0){
+			keys[7]=false;
 		}
 		repaint();
 	}

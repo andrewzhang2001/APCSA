@@ -60,5 +60,14 @@ public abstract class Building{
 	public int getCost(){
 		return cost;
 	}
+	public int getRange(){
+		return 1;
+	}
+	public int getRC(){
+		return 0;
+	}
+	public void setRC(int v ){
+		 return;
+	}
 	public abstract void draw(Graphics window);
 }

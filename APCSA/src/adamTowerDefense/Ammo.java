@@ -4,17 +4,19 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
-public abstract class Ammo {
+public class Ammo {
 	protected int x;
 	protected int y;
 	protected int xVel;
 	protected int yVel;
 	protected int dmg;
-	public Ammo(int xpos, int ypos, int xvel, int yvel){
+	protected Enemy target;
+	public Ammo(int xpos, int ypos, int xvel, int yvel, Enemy e){
 		x=xpos;
 		y=ypos;
 		xVel = xvel;
 		yVel = yvel;
+		target = e;
 	}
 	public void setX(int x){
 		this.x=x;
@@ -28,5 +30,28 @@ public abstract class Ammo {
 	public void setyVel(int yvel){
 		yVel = yvel;
 	}
-	public abstract void draw(Graphics window);
+	public boolean collideWithTarget(){
+		if(x>target.getX()&&x<target.getX()+90&&y>target.getY()&&y<target.getY()+90)
+			return true;
+		return false;
+	}
+	public void move(){
+		if(x>=target.getX()+45){
+			x=x-xVel;
+		}
+		if(x<=target.getX()+45){
+			x=x+xVel;
+		}
+		if(y>=target.getY()+45){
+			y=y-yVel;
+		}
+		if(y<=target.getY()+45){
+			y=y+yVel;
+		}
+		
+	}
+	public void draw(Graphics window){
+		window.setColor(Color.BLUE);
+		window.fillRect(x, y, 2, 2);
+	}
 }
