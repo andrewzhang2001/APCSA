@@ -5,11 +5,12 @@ public abstract class DamagingBuilding extends Building{
 	protected int range;
 	protected boolean isShooting;
 	protected int reloadCounter;
+	
 	public DamagingBuilding(int r, int c, int hp, int DMG, int range){
 		super(r,c,hp);
 		this.DMG=DMG;
 		this.range=range;
-		reloadCounter = 1000;
+		reloadCounter = (int)(Math.random()*1000);
 	}
 	public void setDMG(int dmg){
 		DMG = dmg;

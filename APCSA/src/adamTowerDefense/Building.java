@@ -15,6 +15,7 @@ public abstract class Building{
 	protected int cost;
 	protected boolean alive;
 	protected Image image;
+	protected int shootThreshold;
 	public Building(int row, int col, int HP){
 		this.row = row;
 		this.col = col;
@@ -68,6 +69,9 @@ public abstract class Building{
 	}
 	public void setRC(int v ){
 		 return;
+	}
+	public int getShootThreshold(){
+		return shootThreshold;
 	}
 	public abstract void draw(Graphics window);
 }

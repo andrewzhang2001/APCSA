@@ -48,6 +48,8 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 	private boolean buildTime=false;
 	private boolean introScreen = true;
 	private Image image;
+	private int livesRemaining=3;
+	private boolean battletime = true;
 	public Battlefield()
 	{
 		setBackground(Color.black);
@@ -95,7 +97,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		
 		Graphics graphToBack = back.createGraphics();
 		graphToBack.setColor(Color.BLACK);
-		graphToBack.fillRect(0,0,800,600);
+		graphToBack.fillRect(0,0,1000,700);
 		if(introScreen){
 			graphToBack.drawImage(image, 0, 0, 800, 600, null);
 			if(mousePressed) introScreen = false;
@@ -248,25 +250,104 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 						System.out.println("NOTHING TO DO HERE");
 					}
 				}
+				else if(keys[7]){
+					buildTime = false;
+				}
 				
 
 			}
 		}
 		
 		
-		else if(!buildTime){
+		else if(battletime){
 			tileIsSelected = false;
+			graphToBack.setColor(Color.red);
+			graphToBack.drawString("LIVES REMAINING: "+livesRemaining , 790, 30);
 			count++;
 			if(count>100){
 				enemies.add(new Barbarian((int)(Math.random()*690), 500));
 				count = 0;
 			}
+			for(Ammo ammo:bullets){
+				for(int i=0;i<enemies.size();i++){
+					if (ammo.collideWithTarget(enemies.get(i))){
+						enemies.remove(i);
+						break;
+					}
+				}
+			}
+			for(Building b:buildings){
+				b.draw(graphToBack);
+				if(b.getClass().getName().equals("adamTowerDefense.GoldMine")||b.getClass().getName().equals("adamTowerDefense.Wall")) continue;
+				else{
+					if(b.getRC()>b.getShootThreshold()){
+						if(b.getClass().getName().equals("adamTowerDefense.ArcherTower")){
+							bullets.add(new Ammo(b.getX()+45, b.getY()+45, 1,0));
+							bullets.add(new Ammo(b.getX()+45,b.getY()+45,-1,0));
+							bullets.add(new Ammo(b.getX()+45,b.getY()+45,1,1));
+							bullets.add(new Ammo(b.getX()+45,b.getY()+45, -1, 1));
+						}
+						if(b.getClass().getName().equals("adamTowerDefense.XBow")){
+							bullets.add(new Ammo(b.getX()+45, b.getY()+45, 2,1));
+							bullets.add(new Ammo(b.getX()+45,b.getY()+45,-2,1));
+							bullets.add(new Ammo(b.getX()+45,b.getY()+45,1,2));
+							bullets.add(new Ammo(b.getX()+45,b.getY()+45, -1, 2));
+						}
+						if(b.getClass().getName().equals("adamTowerDefense.InfernoTower")){
+							bullets.add(new Ammo(b.getX()+30, b.getY()+45, 1,0));
+							bullets.add(new Ammo(b.getX()+30,b.getY()+45,-1,0));
+							bullets.add(new Ammo(b.getX()+30,b.getY()+45,1,1));
+							bullets.add(new Ammo(b.getX()+30,b.getY()+45, -1, 1));
+							bullets.add(new Ammo(b.getX()+30,b.getY()+45, 0, 1));
+						}
+						b.setRC(0);
+					}
+					else{
+						b.setRC(b.getRC()+1);
+					}
+				}
+			}
+			for(Ammo b:bullets){
+				b.move();
+				b.draw(graphToBack);
+			}
+			ListIterator it = bullets.listIterator();
+			int index = -1;
+			while(it.hasNext()){
+				it.next();
+				index++;
+				if(bullets.get(index).getX()>790||bullets.get(index).getX()<-10||bullets.get(index).getY()>700||bullets.get(index).getY()<0){
+					it.remove();
+					index--;
+					continue;
+				}
+				for(int i=0;i<enemies.size();i++){
+					if(bullets.get(index).collideWithTarget(enemies.get(i))){
+						enemies.remove(i);
+						it.remove();
+						index--;
+						break;
+					}
+				}
+			}
+			ListIterator ronak = enemies.listIterator();
+			int eindex = -1;
 			for(Enemy e:enemies){
+				ronak.next();
+				
+				eindex++;
+				if(e.getY()<-10){
+					ronak.remove();
+					eindex--;
+					continue;
+				}
 				e.move();
 				e.draw(graphToBack);
 			}
 		}
-
+		else{
+			
+		}
 		
 		//add code to move stuff
 		
@@ -312,7 +393,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 			keys[6]=true;
 		}
 		if(e.getKeyCode()==KeyEvent.VK_0){
-			keys[7]=false;
+			keys[7]=true;
 		}
 		repaint();
 	}

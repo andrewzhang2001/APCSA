@@ -17,6 +17,7 @@ public class XBow extends DamagingBuilding{
 		catch(Exception e){
 			System.out.println("CANT LOAD XBOW.PNG");
 		}
+		shootThreshold = 500;
 		
 	}
 	public void draw(Graphics window){

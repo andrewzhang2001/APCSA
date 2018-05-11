@@ -10,14 +10,14 @@ public class Ammo {
 	protected int xVel;
 	protected int yVel;
 	protected int dmg;
-	protected Enemy target;
-	public Ammo(int xpos, int ypos, int xvel, int yvel, Enemy e){
+	public Ammo(int xpos, int ypos, int xvel, int yvel){
 		x=xpos;
 		y=ypos;
 		xVel = xvel;
 		yVel = yvel;
-		target = e;
+
 	}
+	//objectaid
 	public void setX(int x){
 		this.x=x;
 	}
@@ -30,28 +30,25 @@ public class Ammo {
 	public void setyVel(int yvel){
 		yVel = yvel;
 	}
-	public boolean collideWithTarget(){
+	public boolean collideWithTarget(Enemy target){
 		if(x>target.getX()&&x<target.getX()+90&&y>target.getY()&&y<target.getY()+90)
 			return true;
 		return false;
 	}
+	public int getX(){
+		return x;
+	}
+	public int getY(){
+		return y;
+	}
 	public void move(){
-		if(x>=target.getX()+45){
-			x=x-xVel;
-		}
-		if(x<=target.getX()+45){
-			x=x+xVel;
-		}
-		if(y>=target.getY()+45){
-			y=y-yVel;
-		}
-		if(y<=target.getY()+45){
-			y=y+yVel;
-		}
+		x=x+xVel;
+		y=y+yVel;
 		
 	}
 	public void draw(Graphics window){
-		window.setColor(Color.BLUE);
-		window.fillRect(x, y, 2, 2);
+		Color random = new Color((int)(Math.random()*256),(int)(Math.random()*256), (int)(Math.random()*256));
+		window.setColor(random);
+		window.fillRect(x, y, 4, 4);
 	}
 }
