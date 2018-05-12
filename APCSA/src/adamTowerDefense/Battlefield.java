@@ -49,7 +49,14 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 	private boolean introScreen = true;
 	private Image image;
 	private int livesRemaining=3;
-	private boolean battletime = true;
+	private boolean battletime = false;
+	private int score;
+	private int spawnRate=500;
+	private int spawnCounter;
+	private boolean youJustLose = false;
+	private boolean youJustWin = false;
+	private boolean instructionScreen = false;
+	private Image instructions;
 	public Battlefield()
 	{
 		setBackground(Color.black);
@@ -64,6 +71,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		}
 		try{
 			image = ImageIO.read(new File(System.getProperty("user.dir")+"\\src\\adamTowerDefense\\TITLESLIDE.png"));
+			instructions = ImageIO.read(new File(System.getProperty("user.dir")+"\\src\\adamTowerDefense\\instructions.png"));
 		}
 		catch(Exception e){
 			
@@ -97,13 +105,24 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 		
 		Graphics graphToBack = back.createGraphics();
 		graphToBack.setColor(Color.BLACK);
-		graphToBack.fillRect(0,0,1000,700);
+		graphToBack.fillRect(0,0,1000,800);
 		if(introScreen){
 			graphToBack.drawImage(image, 0, 0, 800, 600, null);
 			if(mousePressed) introScreen = false;
+			instructionScreen = true;
+		}
+		else if(instructionScreen){
+			graphToBack.drawImage(instructions, 0, 0, 1000, 800, null);
+			if(keys[1]){
+				instructionScreen =false;
+				buildTime = true;
+			}
 		}
 		else if(buildTime){
-
+			if(keys[7]){
+				buildTime = false;
+				battletime = true;
+			}
 			for(Building i : buildings){
 				i.draw(graphToBack);
 			}
@@ -115,6 +134,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 			graphToBack.fillRect(410, 390, 180, 50);
 			graphToBack.setColor(Color.YELLOW);
 			graphToBack.drawString("GIVE ME SOME GOLD", 420, 420);
+			graphToBack.drawString("PRESS 0 TO SEND IT!", 420, 350);
 			graphToBack.setColor(Color.GRAY);
 			graphToBack.fillRect(30, 300, 300, 200);
 			graphToBack.setColor(Color.BLUE);
@@ -250,9 +270,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 						System.out.println("NOTHING TO DO HERE");
 					}
 				}
-				else if(keys[7]){
-					buildTime = false;
-				}
+
 				
 
 			}
@@ -263,10 +281,21 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 			tileIsSelected = false;
 			graphToBack.setColor(Color.red);
 			graphToBack.drawString("LIVES REMAINING: "+livesRemaining , 790, 30);
+			graphToBack.drawString("SCORE: "+score, 790, 60);
 			count++;
-			if(count>100){
+			if(count>spawnRate){
 				enemies.add(new Barbarian((int)(Math.random()*690), 500));
 				count = 0;
+				spawnCounter++;
+				if(spawnCounter>10){
+					spawnRate = spawnRate-50;
+					spawnCounter=0;
+					if(spawnRate<30) {
+						battletime = false;
+						youJustWin = true;
+					}
+					return;
+				}
 			}
 			for(Ammo ammo:bullets){
 				for(int i=0;i<enemies.size();i++){
@@ -288,10 +317,12 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 							bullets.add(new Ammo(b.getX()+45,b.getY()+45, -1, 1));
 						}
 						if(b.getClass().getName().equals("adamTowerDefense.XBow")){
-							bullets.add(new Ammo(b.getX()+45, b.getY()+45, 2,1));
-							bullets.add(new Ammo(b.getX()+45,b.getY()+45,-2,1));
-							bullets.add(new Ammo(b.getX()+45,b.getY()+45,1,2));
-							bullets.add(new Ammo(b.getX()+45,b.getY()+45, -1, 2));
+							int[] randomizer = new int[2];
+							for(int i=0;i<randomizer.length;i++){
+								randomizer[i]=(int)(Math.random()*4);
+							}
+							bullets.add(new Ammo(b.getX()+45,b.getY()+45,randomizer[0]>=2?randomizer[0]-1:randomizer[0]-2,randomizer[1]>=2?randomizer[1]-1:Math.abs(randomizer[1]-2)));
+
 						}
 						if(b.getClass().getName().equals("adamTowerDefense.InfernoTower")){
 							bullets.add(new Ammo(b.getX()+30, b.getY()+45, 1,0));
@@ -325,6 +356,7 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 					if(bullets.get(index).collideWithTarget(enemies.get(i))){
 						enemies.remove(i);
 						it.remove();
+						score++;
 						index--;
 						break;
 					}
@@ -332,21 +364,32 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 			}
 			ListIterator ronak = enemies.listIterator();
 			int eindex = -1;
-			for(Enemy e:enemies){
+			while(ronak.hasNext()){
 				ronak.next();
 				
 				eindex++;
-				if(e.getY()<-10){
+				if(enemies.get(eindex).getY()<-10){
+					livesRemaining--;
+					if(livesRemaining <=0){
+						battletime = false;
+						youJustLose = true;
+						return;
+					}
 					ronak.remove();
 					eindex--;
 					continue;
 				}
-				e.move();
-				e.draw(graphToBack);
+				enemies.get(eindex).move();
+				enemies.get(eindex).draw(graphToBack);
 			}
 		}
-		else{
-			
+		else if(youJustWin){
+			graphToBack.setColor(Color.red);
+			graphToBack.drawString("YOU JUST WIN! FINAL SCORE: "+score, 300, 300);
+		}
+		else if(youJustLose){
+			graphToBack.setColor(Color.RED);
+			graphToBack.drawString("YOU JUST LOSE. :( FINAL SCORE: "+score, 300, 300);
 		}
 		
 		//add code to move stuff
@@ -434,7 +477,6 @@ public class Battlefield extends Canvas implements KeyListener, Runnable, MouseL
 
 	}
 	public void mousePressed(MouseEvent e){
-		System.out.println("Hi");
 		if(e.getButton()==MouseEvent.BUTTON1)
 		{
 			mousePressed = true;

@@ -11,7 +11,7 @@ public class Barbarian extends Enemy{
 		this.hp=100;
 		this.dmg=5;
 		this.range=1;
-		this.speed = 2;
+		this.speed = 3;
 		try{
 			image = ImageIO.read(new File(System.getProperty("user.dir")+"\\src\\adamTowerDefense\\barbarian.png"));
 		}

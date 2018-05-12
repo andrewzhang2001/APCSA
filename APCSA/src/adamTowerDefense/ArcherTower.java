@@ -17,7 +17,7 @@ public class ArcherTower extends DamagingBuilding {
 		catch(Exception e){
 			System.out.println("CANT LOAD ARCHER TOWER");
 		}
-		shootThreshold = 3000;
+		shootThreshold = 400;
 	}
 
 	public void draw(Graphics window){

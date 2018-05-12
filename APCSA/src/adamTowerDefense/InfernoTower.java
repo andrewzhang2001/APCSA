@@ -18,7 +18,7 @@ public class InfernoTower extends DamagingBuilding{
 		catch(Exception e){
 			System.out.println("CANT LOAD INFERNO TOWER");
 		}
-		shootThreshold = 200;
+		shootThreshold = 333;
 	}
 	public void draw(Graphics window){
 		window.drawImage(image, X, Y, 60,90,null);
